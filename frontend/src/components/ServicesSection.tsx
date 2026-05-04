@@ -12,48 +12,48 @@ import {
 const ServicesSection = () => {
   const services = [
     {
-      category: "DevOps & Automation",
+      category: "Infrastructure & DevOps",
       icon: Settings,
       color: "text-primary",
       bgColor: "bg-primary/10",
       services: [
         {
           title: "System Administration",
-          description: "Linux server setup, configuration, and maintenance with security best practices",
+          description: "Linux server setup, configuration, and maintenance with security best practices and hardning.",
           icon: Server
         },
         {
-          title: "Automation Scripts",
-          description: "Custom Bash and Python scripts for task automation and system optimization",
+          title: "CI/CD Pipelines",
+          description: "Designing and implementing automated testing and deployment workflows for rapid delivery.",
           icon: Code
         },
         {
-          title: "Cloud Setup",
-          description: "AWS deployment, configuration, and basic infrastructure management",
+          title: "Cloud Architecture",
+          description: "AWS and multi-cloud deployment, configuration, and cloud-native infrastructure management.",
           icon: Cloud
         }
       ]
     },
     {
-      category: "Graphic Design",
-      icon: Palette,
+      category: "Automation & Monitoring",
+      icon: Code,
       color: "text-accent",
       bgColor: "bg-accent/10",
       services: [
         {
-          title: "Logo Design",
-          description: "Professional brand identity creation with modern, memorable logo designs",
-          icon: Image
+          title: "Process Automation",
+          description: "Custom Bash and Python scripts for task automation and system optimization.",
+          icon: Code
         },
         {
-          title: "Marketing Materials",
-          description: "Eye-catching flyers, brochures, and promotional graphics for your business",
-          icon: Palette
+          title: "Observability",
+          description: "Implementing comprehensive monitoring and alerting systems to ensure high availability.",
+          icon: Settings
         },
         {
-          title: "Social Media Graphics",
-          description: "Engaging visual content optimized for various social media platforms",
-          icon: Image
+          title: "Security Engineering",
+          description: "Integrating automated security scanning and DevSecOps principles into the lifecycle.",
+          icon: Server
         }
       ]
     }
@@ -74,7 +74,7 @@ const ServicesSection = () => {
             My <span className="gradient-text">Services</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Comprehensive solutions bridging technical excellence and creative design
+            Specialized technical solutions focused on reliability, scalability, and automation excellence.
           </p>
         </div>
 
@@ -85,7 +85,7 @@ const ServicesSection = () => {
             return (
               <div 
                 key={serviceCategory.category}
-                className="bg-background rounded-xl p-8 border border-border card-hover"
+                className="bg-background rounded-xl p-8 border border-border card-hover animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both"
                 style={{ animationDelay: `${categoryIndex * 200}ms` }}
               >
                 {/* Category Header */}
@@ -142,13 +142,13 @@ const ServicesSection = () => {
 
         {/* Additional Information */}
         <div className="mt-16 text-center">
-          <div className="bg-background rounded-xl p-8 border border-border max-w-4xl mx-auto">
-            <h4 className="text-xl font-semibold mb-4">Collaborative Approach</h4>
+          <div className="bg-background rounded-xl p-8 border border-border max-w-4xl mx-auto shadow-sm">
+            <h4 className="text-xl font-semibold mb-4">A Technical Partnership</h4>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              I love working directly with clients to understand what makes their projects special. 
-              Whether you need to streamline your development process or build a memorable brand identity, 
-              I'll work closely with you to create solutions that fit your unique needs and vision. 
-              Let's build something amazing together!
+              I work directly with teams to solve complex infrastructure challenges and simplify 
+              their operational workflows. Whether you need to migrate to the cloud or improve 
+              your existing CI/CD processes, I provide the technical expertise and reliability 
+              to ensure your project succeeds.
             </p>
             <Button variant="hero" onClick={scrollToContact}>
               Let's Discuss Your Project

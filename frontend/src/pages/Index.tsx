@@ -6,13 +6,16 @@ import ServicesSection from "@/components/ServicesSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import ContactSection from "@/components/ContactSection";
 import InteractiveTerminal from "@/components/InteractiveTerminal";
+import AnimatedBackground from "@/components/AnimatedBackground";
 import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative selection:bg-primary/30">
+      <AnimatedBackground />
       <Navigation />
       <HeroSection />
+
       <AboutSection />
       <SkillsSection />
       <InteractiveTerminal />

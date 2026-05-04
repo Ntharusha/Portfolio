@@ -13,73 +13,58 @@ import {
 const SkillsSection = () => {
   const technicalSkills = [
     {
-      icon: Terminal,
-      title: "Linux System Administration",
-      description: "Advanced command-line expertise and system configuration",
-      level: 90
-    },
-    {
-      icon: Code,
-      title: "Automation Programming",
-      description: "Bash scripting and Python for system automation",
-      level: 85
-    },
-    {
-      icon: GitBranch,
-      title: "Version Control",
-      description: "Git workflows and collaborative development",
-      level: 88
-    },
-    {
-      icon: Container,
-      title: "Containerization",
-      description: "Docker containers and orchestration basics",
-      level: 75
-    },
-    {
       icon: Cloud,
-      title: "Cloud Platforms",
-      description: "AWS fundamentals and cloud service deployment",
+      title: "Cloud Computing",
+      description: "AWS (EC2, S3, IAM basics)",
       level: 70
     },
     {
-      icon: Network,
-      title: "Networking",
-      description: "Network protocols and infrastructure basics",
+      icon: Layers,
+      title: "Infrastructure as Code",
+      description: "Terraform, OpenTofu",
       level: 80
     },
     {
-      icon: Layers,
-      title: "CI/CD Concepts",
-      description: "Continuous integration and deployment pipelines",
+      icon: Container,
+      title: "Containerization & Orchestration",
+      description: "Docker, Docker Compose, Kubernetes (Basic)",
       level: 75
     },
     {
       icon: Server,
-      title: "DevOps Tools",
-      description: "Infrastructure as Code and monitoring",
-      level: 78
-    }
-  ];
-
-  const creativeSkills = [
-    {
-      icon: Palette,
-      title: "Logo Design",
-      description: "Brand identity and visual logo creation",
-      level: 92
+      title: "CI/CD & Automation",
+      description: "Jenkins, GitHub Actions, Argo CD, Ansible",
+      level: 80
     },
     {
-      icon: Palette,
-      title: "Flyer Design",
-      description: "Marketing materials and promotional graphics",
-      level: 88
+      icon: Network,
+      title: "Monitoring & Logging",
+      description: "Prometheus, Grafana, Linux system monitoring tools",
+      level: 75
     },
     {
-      icon: Palette,
-      title: "Social Media Graphics",
-      description: "Engaging content for digital platforms",
+      icon: Terminal,
+      title: "Operating Systems",
+      description: "Linux (Ubuntu, System Administration, CLI)",
       level: 90
+    },
+    {
+      icon: GitBranch,
+      title: "Version Control",
+      description: "Git, GitHub",
+      level: 85
+    },
+    {
+      icon: Code,
+      title: "Scripting & Backend",
+      description: "Python, Bash, Node.js",
+      level: 80
+    },
+    {
+      icon: Network,
+      title: "Networking",
+      description: "TCP/IP, DNS, Troubleshooting",
+      level: 75
     }
   ];
 
@@ -88,7 +73,7 @@ const SkillsSection = () => {
     
     return (
       <div 
-        className="bg-card rounded-lg p-6 border border-border card-hover"
+        className="bg-card rounded-lg p-6 border border-border card-hover animate-in fade-in slide-in-from-bottom-5 duration-500 fill-mode-both"
         style={{ animationDelay: `${index * 100}ms` }}
       >
         <div className="flex items-start space-x-4">
@@ -107,7 +92,7 @@ const SkillsSection = () => {
                 <span className="text-muted-foreground">Proficiency</span>
                 <span className="text-primary font-medium">{skill.level}%</span>
               </div>
-              <div className="w-full bg-muted rounded-full h-2">
+              <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
                 <div 
                   className="bg-accent-gradient h-2 rounded-full smooth-transition"
                   style={{ width: `${skill.level}%` }}
@@ -121,50 +106,32 @@ const SkillsSection = () => {
   };
 
   return (
-    <section id="skills" className="py-20 bg-background">
+    <section id="skills" className="py-20 bg-background relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Skills & <span className="gradient-text">Expertise</span>
+            Technical <span className="gradient-text">Expertise</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            A versatile combination of technical prowess and creative excellence
+            A comprehensive suite of technical skills focused on systems automation, reliability, and cloud infrastructure.
           </p>
         </div>
 
-        {/* Technical Skills */}
-        <div className="mb-16">
-          <h3 className="text-2xl font-semibold mb-8 text-center">
-            <span className="gradient-text">Technical Skills</span>
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {technicalSkills.map((skill, index) => (
-              <SkillCard key={skill.title} skill={skill} index={index} />
-            ))}
-          </div>
-        </div>
-
-        {/* Creative Skills */}
-        <div>
-          <h3 className="text-2xl font-semibold mb-8 text-center">
-            <span className="gradient-text">Creative Skills</span>
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {creativeSkills.map((skill, index) => (
-              <SkillCard key={skill.title} skill={skill} index={index} />
-            ))}
-          </div>
+        {/* Technical Skills Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {technicalSkills.map((skill, index) => (
+            <SkillCard key={skill.title} skill={skill} index={index} />
+          ))}
         </div>
 
         {/* Skills Summary */}
         <div className="mt-16 text-center">
-          <div className="bg-card rounded-lg p-8 border border-border max-w-4xl mx-auto">
-            <h4 className="text-xl font-semibold mb-4">Why Choose Me?</h4>
+          <div className="bg-card rounded-xl p-8 border border-border max-w-4xl mx-auto shadow-sm">
+            <h4 className="text-xl font-semibold mb-4">Commitment to Quality</h4>
             <p className="text-muted-foreground leading-relaxed">
-              My unique combination of technical DevOps expertise and creative design skills allows me to 
-              deliver comprehensive solutions. I don't just build systems – I create experiences that are 
-              both functional and visually appealing. Whether you need robust automation, reliable cloud 
-              infrastructure, or stunning graphic designs, I bring passion and precision to every project.
+              With a deep focus on DevOps principles and systems engineering, I deliver robust, scalable, 
+              and automated solutions. My expertise spans across Linux administration, cloud infrastructure, 
+              and CI/CD pipelines, ensuring high availability and efficiency for modern technical projects.
             </p>
           </div>
         </div>

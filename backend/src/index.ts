@@ -54,7 +54,7 @@ const Project = mongoose.model("Project", projectSchema);
 
 // Routes
 app.get("/", (req, res) => {
-  res.send("Portfolio Backend API is running...");
+  res.json({ status: "ok", message: "Portfolio Backend API is running..." });
 });
 
 // Projects Routes
@@ -63,17 +63,23 @@ app.get("/api/projects", async (req, res) => {
     const projects = await Project.find().sort({ createdAt: -1 });
     res.json(projects);
   } catch (error) {
+    console.error("Fetch projects error:", error);
     res.status(500).json({ message: "Failed to fetch projects" });
   }
 });
 
 app.post("/api/projects", async (req, res) => {
-  // In a real app, you'd add authentication here
+  const { title, category, description } = req.body;
+  if (!title || !category || !description) {
+    return res.status(400).json({ message: "Missing required fields: title, category, description" });
+  }
+
   try {
     const newProject = new Project(req.body);
     await newProject.save();
     res.status(201).json(newProject);
   } catch (error) {
+    console.error("Create project error:", error);
     res.status(400).json({ message: "Failed to create project" });
   }
 });
@@ -82,40 +88,59 @@ app.post("/api/projects", async (req, res) => {
 app.post("/api/contact", async (req, res) => {
   const { name, email, subject, message } = req.body;
 
+  if (!name || !email || !subject || !message) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
   try {
     // Save to database
     const newContact = new Contact({ name, email, subject, message });
     await newContact.save();
 
-    // Send email notification
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.RECEIVER_EMAIL || process.env.EMAIL_USER,
-      subject: `New Contact Form Submission: ${subject}`,
-      html: `
-        <h3>New Contact Form Submission</h3>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong> ${message}</p>
-      `,
-    };
+    // Check if email config is present before sending
+    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+      // Send email notification
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: process.env.RECEIVER_EMAIL || process.env.EMAIL_USER,
+        subject: `New Contact Form Submission: ${subject}`,
+        html: `
+          <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+            <h2 style="color: #333;">New Contact Form Submission</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Subject:</strong> ${subject}</p>
+            <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 5px;">
+              <strong>Message:</strong><br/>
+              ${message.replace(/\n/g, '<br/>')}
+            </div>
+          </div>
+        `,
+      };
 
-    await transporter.sendMail(mailOptions);
+      await transporter.sendMail(mailOptions);
+    } else {
+      console.warn("Email configuration missing. Message saved to DB but not sent via email.");
+    }
 
-    res.status(201).json({ message: "Message sent successfully!" });
+    res.status(201).json({ 
+      success: true, 
+      message: "Message received and saved successfully!" 
+    });
   } catch (error) {
     console.error("Error submitting contact form:", error);
-    res.status(500).json({ message: "Failed to send message. Please try again later." });
+    res.status(500).json({ message: "Failed to process message. Please try again later." });
   }
 });
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
+  console.error("Unhandled Error:", err);
+  res.status(500).json({ error: "Internal Server Error", message: err.message });
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(`📝 MongoDB URI: ${MONGODB_URI.substring(0, 15)}...`);
 });
+

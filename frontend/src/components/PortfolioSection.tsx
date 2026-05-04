@@ -17,49 +17,31 @@ const PortfolioSection = () => {
   const [portfolioItems, setPortfolioItems] = useState<ProjectItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // My graphic design portfolio showcasing real projects I've created
+  // Technical projects showcasing my expertise in DevOps and Automation
   const staticItems = [
     {
       id: 1,
-      title: "University Tech Club Logo",
-      category: "Logo Design",
-      description: "Modern logo design for our university's technology club that represents innovation and community",
-      tags: ["University", "Tech Club", "Brand Identity"]
+      title: "ApexPOS",
+      category: "Cloud-Native SaaS POS System",
+      description: "Architected a cloud-native POS system using Node.js and MongoDB Atlas deployed on AWS. Automated infrastructure provisioning using Terraform and configured server environments with Ansible. Implemented a robust CI/CD pipeline using Jenkins and Argo CD for automated deployment. Planned and implementing Kubernetes (K8s) for container orchestration, scalability, and high availability. Containerized application modules using Docker.",
+      tags: ["AWS", "Terraform", "Jenkins", "Argo CD", "Kubernetes", "Docker", "Node.js", "MongoDB"],
+      projectUrl: "https://github.com/Ntharusha/ApexPOS"
     },
     {
       id: 2,
-      title: "Campus Event Posters",
-      category: "Print Design",
-      description: "Eye-catching posters for tech workshops and coding competitions at university",
-      tags: ["Event", "Poster", "Campus"]
+      title: "Lankan Premiere",
+      category: "Movie Ticketing System",
+      description: "Developed a full-stack ticketing system using React, Node.js, and MongoDB. Deployed scalable infrastructure on AWS using Terraform scripts. Streamlined deployment processes through integrated CI/CD pipelines. Integrated basic monitoring using Prometheus and Grafana to track system performance.",
+      tags: ["React", "Node.js", "MongoDB", "AWS", "Terraform", "Prometheus", "Grafana"],
+      projectUrl: "https://github.com/Ntharusha/Lankan-Primire"
     },
     {
       id: 3,
-      title: "Social Media Brand Kit",
-      category: "Digital Graphics",
-      description: "Complete social media package with templates and graphics for consistent branding",
-      tags: ["Social Media", "Branding", "Templates"]
-    },
-    {
-      id: 4,
-      title: "Local Cafe Menu Design",
-      category: "Brand Identity",
-      description: "Warm, inviting menu design for a neighborhood cafe with custom illustrations",
-      tags: ["Menu", "Cafe", "Illustration"]
-    },
-    {
-      id: 5,
-      title: "Developer Portfolio Graphics",
-      category: "UI Design",
-      description: "Clean, professional graphics and icons for developer portfolios and resumes",
-      tags: ["Developer", "Portfolio", "Icons"]
-    },
-    {
-      id: 6,
-      title: "Tech Workshop Materials",
-      category: "Educational Design",
-      description: "Engaging presentation slides and handouts for programming workshops I've conducted",
-      tags: ["Education", "Workshop", "Presentation"]
+      title: "DevOps Study Companion",
+      category: "Full-Stack Web App",
+      description: "Built a full-stack tracking tool with React and Node.js to monitor DevOps learning milestones. Configured automated workflows using GitHub Actions for continuous integration. Leveraged Terraform for AWS infrastructure management and Docker for application portability. Explored basic monitoring concepts for application health tracking.",
+      tags: ["React", "Node.js", "GitHub Actions", "Terraform", "Docker", "AWS"],
+      projectUrl: "https://github.com/Ntharusha/DevOps-Study-Companion"
     }
   ];
 
@@ -70,7 +52,12 @@ const PortfolioSection = () => {
         if (response.ok) {
           const data = await response.json();
           if (data && data.length > 0) {
-            setPortfolioItems([...data, ...staticItems]);
+            // Filter out projects that might be labeled graphic design from the DB
+            const filteredData = data.filter((p: any) => 
+              !p.category?.toLowerCase().includes("design") && 
+              !p.category?.toLowerCase().includes("graphic")
+            );
+            setPortfolioItems([...filteredData, ...staticItems]);
           } else {
             setPortfolioItems(staticItems);
           }
@@ -93,24 +80,11 @@ const PortfolioSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            My <span className="gradient-text">Works</span>
+            Technical <span className="gradient-text">Portfolio</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-            A curated collection of graphic design projects showcasing creativity and technical skill
+            A showcase of my projects in systems automation, cloud infrastructure, and DevOps engineering.
           </p>
-          
-          {/* Link to Facebook Portfolio */}
-          <div className="flex justify-center">
-            <Button 
-              variant="outline" 
-              className="group"
-              onClick={() => window.open('https://web.facebook.com/ArtwaveInnovations', '_blank')}
-            >
-              <Facebook className="mr-2 h-4 w-4" />
-              Visit Artwave Innovations
-              <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 smooth-transition" />
-            </Button>
-          </div>
         </div>
 
         {/* Portfolio Grid */}
@@ -136,7 +110,7 @@ const PortfolioSection = () => {
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-                      <span className="text-muted-foreground font-medium">{item.title}</span>
+                      <span className="text-muted-foreground font-medium px-4 text-center">{item.title}</span>
                     </div>
                   )}
                   {/* Hover Overlay */}
@@ -146,7 +120,7 @@ const PortfolioSection = () => {
                       size="sm"
                       onClick={() => item.projectUrl && window.open(item.projectUrl, '_blank')}
                     >
-                      {item.projectUrl ? "View Project" : "View Details"}
+                      {item.projectUrl ? "View Repository" : "View Details"}
                     </Button>
                   </div>
                 </div>
@@ -178,23 +152,16 @@ const PortfolioSection = () => {
 
         {/* Call to Action */}
         <div className="mt-16 text-center">
-          <div className="bg-card rounded-xl p-8 border border-border max-w-4xl mx-auto">
-            <h4 className="text-xl font-semibold mb-4">Like What You See?</h4>
+          <div className="bg-card rounded-xl p-8 border border-border max-w-4xl mx-auto shadow-sm">
+            <h4 className="text-xl font-semibold mb-4">Interested in Collaboration?</h4>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              These are just a few examples of my graphic design work. I'm always excited to take on 
-              new creative challenges and bring fresh ideas to life. Let's collaborate on your next 
-              visual project!
+              I'm always looking for opportunities to contribute to innovative technical projects 
+              and help teams improve their development lifecycle. Let's talk about how I can 
+              bring my DevOps and automation skills to your next endeavor.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 variant="hero"
-                onClick={() => window.open('https://web.facebook.com/ArtwaveInnovations', '_blank')}
-              >
-                <Facebook className="mr-2 h-4 w-4" />
-                View My Page
-              </Button>
-              <Button 
-                variant="outline"
                 onClick={() => {
                   const element = document.getElementById("contact");
                   if (element) {
@@ -202,11 +169,12 @@ const PortfolioSection = () => {
                   }
                 }}
               >
-                Start a Project
+                Start a Conversation
               </Button>
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );

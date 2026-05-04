@@ -24,32 +24,6 @@ const ContactSection = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: "ntb069@gmail.com",
-      action: "mailto:ntb069@gmail.com"
-    },
-    {
-      icon: Phone,
-      label: "Phone",
-      value: "+94 763629126",
-      action: "tel:+94763629126"
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      value: "Tharusha Bhashitha",
-      action: "https://www.linkedin.com/in/tharusha-bhashitha-b985b42b9/"
-    },
-    {
-      icon: Facebook,
-      label: "Page",
-      value: "Artwave Innovations",
-      action: "https://web.facebook.com/ArtwaveInnovations"
-    }
-  ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -118,15 +92,45 @@ const ContactSection = () => {
               <h3 className="text-2xl font-semibold mb-6">Let's Connect</h3>
             <p className="text-muted-foreground leading-relaxed mb-8">
               I'd love to hear about your project and see how we can work together! Whether you need 
-              DevOps expertise, system automation, or creative design work, I'm here to help bring 
-              your ideas to life. Reach out through any channel below - I'm quick to respond and 
-              excited to chat about your vision.
+              DevOps expertise, system automation, or cloud infrastructure setup, I'm here to help bring 
+              your technical vision to life. Reach out through any channel below - I'm quick to respond and 
+              excited to chat about your requirements.
             </p>
             </div>
 
             {/* Contact Methods */}
             <div className="space-y-4">
-              {contactInfo.map((contact, index) => {
+              {[
+                {
+                  icon: Mail,
+                  label: "Email",
+                  value: "ntb069@gmail.com",
+                  action: "mailto:ntb069@gmail.com"
+                },
+                {
+                  icon: Phone,
+                  label: "Phone",
+                  value: "+94 763629126",
+                  action: "tel:+94763629126"
+                },
+                {
+                  icon: Linkedin,
+                  label: "LinkedIn",
+                  value: "Tharusha Bhashitha",
+                  action: "https://www.linkedin.com/in/tharusha69/"
+                },
+                {
+                  icon: (props: any) => (
+                    <svg viewBox="0 0 24 24" {...props} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                    </svg>
+                  ),
+                  label: "GitHub",
+                  value: "Ntharusha",
+                  action: "https://github.com/Ntharusha"
+                }
+              ].map((contact, index) => {
+
                 const Icon = contact.icon;
                 
                 return (

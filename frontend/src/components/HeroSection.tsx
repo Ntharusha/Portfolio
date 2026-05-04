@@ -22,16 +22,14 @@ const HeroSection = () => {
                 <span className="gradient-text">Tharusha Bhashitha</span>
               </h1>
               <p className="text-xl sm:text-2xl text-muted-foreground font-light">
-                DevOps Engineer & Graphic Designer
+                DevOps Engineer & Systems Enthusiast
               </p>
             </div>
             
             <p className="text-lg text-muted-foreground max-w-2xl">
-              I'm passionate about bridging the gap between development and operations while creating 
-              beautiful visual designs that make technology more accessible. Currently studying 
-              Applied Mathematics and Computing at the University of Vavuniya, where I'm learning 
-              how to blend technical expertise with creative problem-solving.
+              Motivated and detail-oriented aspiring DevOps Engineer specializing in Infrastructure as Code (IaC) and CI/CD automation. Hands-on experience building cloud-native systems using AWS, Docker, and Terraform. Passionate about enhancing infrastructure reliability and streamlining deployment workflows through automation.
             </p>
+
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button 
