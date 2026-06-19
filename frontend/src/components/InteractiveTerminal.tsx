@@ -13,6 +13,7 @@ const InteractiveTerminal = () => {
   ]);
   const [input, setInput] = useState("");
   const [isMaximized, setIsMaximized] = useState(false);
+  const [isSimulating, setIsSimulating] = useState(false);
   const [projects, setProjects] = useState<any[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -21,8 +22,8 @@ const InteractiveTerminal = () => {
     // Initial welcome message with a slight delay
     setTimeout(() => {
       setHistory([
-        { type: "output", content: "Welcome to Tharusha's Interactive Terminal v1.0.4" },
-        { type: "output", content: "Type 'help' to see available commands." },
+        { type: "output", content: "Welcome to Tharusha's Interactive Terminal v1.2.5" },
+        { type: "output", content: "Type 'help' to view commands. Type 'devops' to open the DevOps Learning Hub!" },
       ]);
     }, 500);
 
@@ -47,26 +48,197 @@ const InteractiveTerminal = () => {
     }
   }, [history]);
 
+  const runSimulation = (lines: { type: "input" | "output" | "error"; content: string }[]) => {
+    setIsSimulating(true);
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index < lines.length) {
+        setHistory((prev) => [...prev, lines[index]]);
+        index++;
+      } else {
+        clearInterval(interval);
+        setIsSimulating(false);
+        setHistory((prev) => [
+          ...prev,
+          { type: "output", content: "\nSimulation execution complete. Ready for next command." },
+        ]);
+      }
+    }, 450);
+  };
+
   const handleCommand = (cmd: string) => {
     const trimmedCmd = cmd.trim().toLowerCase();
     const newHistory: TerminalLine[] = [...history, { type: "input", content: `visitor@tharusha:~$ ${cmd}` }];
+
+    if (isSimulating) {
+      newHistory.push({ type: "error", content: "Terminal is currently busy running a simulation. Please wait..." });
+      setHistory(newHistory);
+      setInput("");
+      return;
+    }
 
     if (trimmedCmd === "help") {
       newHistory.push({
         type: "output",
         content: (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 my-2">
-            <p><span className="text-green-400 font-bold w-16 inline-block">help</span> - Show commands</p>
-            <p><span className="text-blue-400 font-bold w-16 inline-block">ls</span> - List sections</p>
-            <p><span className="text-blue-400 font-bold w-16 inline-block">cat</span> - Read section</p>
-            <p><span className="text-yellow-400 font-bold w-16 inline-block">clear</span> - Clear screen</p>
-            <p><span className="text-purple-400 font-bold w-16 inline-block">whoami</span> - About user</p>
-            <p><span className="text-purple-400 font-bold w-16 inline-block">neofetch</span> - System info</p>
-            <p><span className="text-pink-400 font-bold w-16 inline-block">github</span> - Profile</p>
-            <p><span className="text-red-400 font-bold w-16 inline-block">exit</span> - Reset session</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 my-2 font-mono-dev text-xs">
+            <p><span className="text-[#00f2ff] font-bold w-24 inline-block">devops</span> - Open DevOps Learning Hub</p>
+            <p><span className="text-[#4AF626] font-bold w-24 inline-block">help</span> - Show commands</p>
+            <p><span className="text-[#00f2ff] font-bold w-24 inline-block">ls</span> - List sections</p>
+            <p><span className="text-[#00f2ff] font-bold w-24 inline-block">cat [sec]</span> - Read section</p>
+            <p><span className="text-[#FFB800] font-bold w-24 inline-block">clear</span> - Clear screen</p>
+            <p><span className="text-[#00f2ff] font-bold w-24 inline-block">whoami</span> - About user</p>
+            <p><span className="text-[#00f2ff] font-bold w-24 inline-block">neofetch</span> - System info</p>
+            <p><span className="text-[#FFB800] font-bold w-24 inline-block">github</span> - Profile</p>
           </div>
         ),
       });
+    } else if (trimmedCmd === "devops") {
+      newHistory.push({
+        type: "output",
+        content: (
+          <div className="space-y-2 my-2 font-mono-dev text-xs border border-[#00f2ff]/20 p-4 rounded bg-[#0d1515]">
+            <p className="text-[#00f2ff] font-bold">=== DEVOPS INTERACTIVE LEARNING HUB ===</p>
+            <p className="text-[#b9cacb] leading-relaxed">
+              Explore DevOps concepts, automation pipelines, and tools interactively!
+            </p>
+            <p className="text-[#00f2ff] mt-2 font-bold">// CONCEPTS</p>
+            <p className="pl-4"><span className="text-white font-bold w-28 inline-block">learn ci/cd</span> - Continuous Integration (Jenkins, GitHub Actions)</p>
+            <p className="pl-4"><span className="text-white font-bold w-28 inline-block">learn iac</span> - Infrastructure as Code (Terraform, Ansible)</p>
+            <p className="pl-4"><span className="text-white font-bold w-28 inline-block">learn k8s</span> - Containers & Orchestration (Docker, Kubernetes)</p>
+            <p className="pl-4"><span className="text-white font-bold w-28 inline-block">learn gitops</span> - GitOps Deployment (Argo CD)</p>
+            <p className="pl-4"><span className="text-white font-bold w-28 inline-block">learn monitor</span> - Observability (Prometheus, Grafana)</p>
+            
+            <p className="text-[#FFB800] mt-2 font-bold">// LIVE PIPELINE SIMULATORS</p>
+            <p className="pl-4"><span className="text-white font-bold w-28 inline-block">run ci/cd</span> - Trigger simulated Jenkins Docker build loop</p>
+            <p className="pl-4"><span className="text-white font-bold w-28 inline-block">run iac</span> - Run a simulated Terraform resource provision</p>
+            <p className="pl-4"><span className="text-white font-bold w-28 inline-block">run gitops</span> - Sync a cluster deployment via Argo CD</p>
+          </div>
+        ),
+      });
+    } else if (trimmedCmd === "learn ci/cd") {
+      newHistory.push({
+        type: "output",
+        content: (
+          <div className="space-y-1.5 font-mono text-xs text-[#b9cacb]">
+            <p className="text-[#00f2ff] font-bold">--- CI/CD & PIPELINE AUTOMATION ---</p>
+            <p><span className="text-[#00f2ff]">Stack:</span> Jenkins, GitHub Actions, Scripting</p>
+            <p className="leading-relaxed">
+              Continuous Integration (CI) automatically builds, lints, and runs tests whenever code is pushed.
+              Continuous Delivery (CD) automates release delivery. This eliminates manual builds and catches errors early.
+            </p>
+            <p className="text-[#FFB800] font-semibold">Tip: Run 'run ci/cd' to simulate a Docker build and push pipeline!</p>
+          </div>
+        ),
+      });
+    } else if (trimmedCmd === "learn iac") {
+      newHistory.push({
+        type: "output",
+        content: (
+          <div className="space-y-1.5 font-mono text-xs text-[#b9cacb]">
+            <p className="text-[#00f2ff] font-bold">--- INFRASTRUCTURE AS CODE (IaC) ---</p>
+            <p><span className="text-[#00f2ff]">Stack:</span> Terraform, OpenTofu, Ansible</p>
+            <p className="leading-relaxed">
+              Instead of manually creating cloud servers, IaC lets you describe infrastructure as declaration files.
+              Terraform provisions AWS networks/servers, and Ansible configures software on them dynamically.
+            </p>
+            <p className="text-[#FFB800] font-semibold">Tip: Run 'run iac' to see Terraform provision cloud servers!</p>
+          </div>
+        ),
+      });
+    } else if (trimmedCmd === "learn k8s") {
+      newHistory.push({
+        type: "output",
+        content: (
+          <div className="space-y-1.5 font-mono text-xs text-[#b9cacb]">
+            <p className="text-[#00f2ff] font-bold">--- CONTAINERS & ORCHESTRATION ---</p>
+            <p><span className="text-[#00f2ff]">Stack:</span> Docker, Docker Compose, Kubernetes (K8s)</p>
+            <p className="leading-relaxed">
+              Docker wraps applications into virtual containers that run anywhere reliably.
+              Kubernetes manages clusters of these containers, handling auto-scaling, health monitoring, and network routing automatically.
+            </p>
+          </div>
+        ),
+      });
+    } else if (trimmedCmd === "learn gitops") {
+      newHistory.push({
+        type: "output",
+        content: (
+          <div className="space-y-1.5 font-mono text-xs text-[#b9cacb]">
+            <p className="text-[#00f2ff] font-bold">--- GITOPS CONTINUOUS DEPLOYMENT ---</p>
+            <p><span className="text-[#00f2ff]">Stack:</span> Argo CD, Kubernetes Manifests</p>
+            <p className="leading-relaxed">
+              GitOps uses Git repositories as the single source of truth for deployments.
+              Argo CD continuously monitors Git and pulls updates straight to Kubernetes, ensuring the live system always matches the configurations in repository.
+            </p>
+            <p className="text-[#FFB800] font-semibold">Tip: Run 'run gitops' to see Argo CD synchronize cluster manifests!</p>
+          </div>
+        ),
+      });
+    } else if (trimmedCmd === "learn monitor") {
+      newHistory.push({
+        type: "output",
+        content: (
+          <div className="space-y-1.5 font-mono text-xs text-[#b9cacb]">
+            <p className="text-[#00f2ff] font-bold">--- OBSERVABILITY & MONITORING ---</p>
+            <p><span className="text-[#00f2ff]">Stack:</span> Prometheus, Grafana, Node Exporter</p>
+            <p className="leading-relaxed">
+              Observability keeps track of system health. Prometheus collects metrics (CPU/RAM load, request latency)
+              at regular intervals, while Grafana organizes these metrics into beautiful dashboard charts for system reliability alerts.
+            </p>
+          </div>
+        ),
+      });
+    } else if (trimmedCmd === "run ci/cd") {
+      setHistory(newHistory);
+      setInput("");
+      runSimulation([
+        { type: "output", content: "$ git push origin main" },
+        { type: "output", content: "Counting objects: 100% (5/5), done." },
+        { type: "output", content: "Writing objects: 100% (3/3), 296 bytes | 296.00 KiB/s, done." },
+        { type: "output", content: "To github.com:Ntharusha/ApexPOS.git\n   98b50e2..7b64e5e  main -> main" },
+        { type: "output", content: "\n[Jenkins] Webhook received. Starting Build Job #78..." },
+        { type: "output", content: "[Jenkins] [Stage 1/4] Running ESLint check... Done (Pass)" },
+        { type: "output", content: "[Jenkins] [Stage 2/4] Executing unit tests (Jest)... 14/14 tests passed." },
+        { type: "output", content: "[Jenkins] [Stage 3/4] Building Docker container image..." },
+        { type: "output", content: "   --> Docker build context: 14.5MB\n   --> STEP 1: FROM node:20-alpine\n   --> STEP 2: RUN npm ci\n   --> STEP 3: COPY . .\n   --> Tagging image as ntharusha/apexpos:latest" },
+        { type: "output", content: "[Jenkins] [Stage 4/4] Authenticating with registry and pushing..." },
+        { type: "output", content: "   --> Pushing layer 98b50e2... Done\n   --> Pushing layer 7b64e5e... Done" },
+        { type: "output", content: "✔ [Jenkins] SUCCESS: Build Pipeline Job #78 finished in 18s." },
+      ]);
+      return;
+    } else if (trimmedCmd === "run iac") {
+      setHistory(newHistory);
+      setInput("");
+      runSimulation([
+        { type: "output", content: "$ terraform init" },
+        { type: "output", content: "Initializing modules...\nInitializing provider plugins (hashicorp/aws)..." },
+        { type: "output", content: "✔ Terraform has been successfully initialized!" },
+        { type: "output", content: "\n$ terraform plan" },
+        { type: "output", content: "Terraform will perform the following actions:\n  + aws_instance.prod_web_server will be created" },
+        { type: "output", content: "Plan: 1 to add, 0 to change, 0 to destroy." },
+        { type: "output", content: "\n$ terraform apply --auto-approve" },
+        { type: "output", content: "aws_instance.prod_web_server: Creating..." },
+        { type: "output", content: "aws_instance.prod_web_server: Still creating... (5s elapsed)" },
+        { type: "output", content: "aws_instance.prod_web_server: Creation complete [id=i-00f2ff1122aa]" },
+        { type: "output", content: "\n✔ Apply complete! Resources: 1 added, 0 changed, 0 destroyed." },
+      ]);
+      return;
+    } else if (trimmedCmd === "run gitops") {
+      setHistory(newHistory);
+      setInput("");
+      runSimulation([
+        { type: "output", content: "[ArgoCD] Fetching status of target cluster resources..." },
+        { type: "output", content: "State: OutOfSync (Git Revision: 7b64e5 != Active Revision: 98b50e)" },
+        { type: "output", content: "\n[ArgoCD] Triggering Sync Loop..." },
+        { type: "output", content: "  --> Pruning legacy pods..." },
+        { type: "output", content: "  --> Applying configuration deployment.yaml..." },
+        { type: "output", content: "  --> Rolling out deployment/apex-pos-api..." },
+        { type: "output", content: "  --> Scaling replica set apex-pos-api-7b64e5... 0 -> 3" },
+        { type: "output", content: "  --> Waiting for container health checks..." },
+        { type: "output", content: "✔ Sync complete! Cluster state is Synced.\nStatus: Healthy." },
+      ]);
+      return;
     } else if (trimmedCmd === "ls") {
       newHistory.push({ type: "output", content: "about  skills  projects  contact  experience" });
     } else if (trimmedCmd === "whoami") {
@@ -77,33 +249,33 @@ const InteractiveTerminal = () => {
       newHistory.push({
         type: "output",
         content: (
-          <div className="flex flex-col sm:flex-row gap-4 my-2 font-mono text-xs sm:text-sm">
-            <div className="text-primary leading-tight whitespace-pre">
-{`   ⣴⣶⣦⡀
- ⢻⣿⣿⣿⣿
-  ⢹⣿⣿⣿
-   ⣼⣿⣿
-  ⣼⣿⣿⣿
- ⢰⣿⣿⣿⣿⣷
- ⢈⠻⣿⣿⣿⣿
-  ⠙⠶⠶⠶⠶`}
+          <div className="flex flex-col sm:flex-row gap-4 my-2 font-mono-dev text-xs">
+            <div className="text-[#00f2ff] leading-tight whitespace-pre font-bold">
+              {`   ⣴⣶⣦⡀
+  ⢻⣿⣿⣿⣿
+   ⢹⣿⣿⣿
+    ⣼⣿⣿
+   ⣼⣿⣿⣿
+  ⢰⣿⣿⣿⣿⣷
+  ⢈⠻⣿⣿⣿⣿
+   ⠙⠶⠶⠶⠶`}
             </div>
             <div>
-              <p><span className="text-primary font-bold">visitor</span>@<span className="text-primary font-bold">tharusha-portfolio</span></p>
-              <p>-------------------------</p>
-              <p><span className="text-primary font-bold">OS:</span> PortfolioOS v1.2.0 stable</p>
-              <p><span className="text-primary font-bold">Host:</span> React.js Web Runtime</p>
-              <p><span className="text-primary font-bold">Kernel:</span> 6.12.0-tharusha-generic</p>
-              <p><span className="text-primary font-bold">Uptime:</span> {Math.floor(performance.now() / 60000)} mins</p>
-              <p><span className="text-primary font-bold">Shell:</span> bash-tharusha</p>
-              <p><span className="text-primary font-bold">Theme:</span> Midnight Glass</p>
-              <p><span className="text-primary font-bold">CPU:</span> Virtual Intel i9-14900K</p>
+              <p><span className="text-[#00f2ff] font-bold">visitor</span>@<span className="text-[#00f2ff] font-bold">tharusha-portfolio</span></p>
+              <p className="text-[#2D2D30]">-------------------------</p>
+              <p><span className="text-[#00f2ff] font-bold">OS:</span> PortfolioOS v1.2.5 stable</p>
+              <p><span className="text-[#00f2ff] font-bold">Host:</span> React.js Web Runtime</p>
+              <p><span className="text-[#00f2ff] font-bold">Kernel:</span> 6.12.0-tharusha-generic</p>
+              <p><span className="text-[#00f2ff] font-bold">Uptime:</span> {Math.floor(performance.now() / 60000)} mins</p>
+              <p><span className="text-[#00f2ff] font-bold">Shell:</span> bash-tharusha</p>
+              <p><span className="text-[#00f2ff] font-bold">Theme:</span> Obsidian Flux</p>
+              <p><span className="text-[#00f2ff] font-bold">CPU:</span> Virtual Intel i9-14900K</p>
             </div>
           </div>
         ),
       });
     } else if (trimmedCmd === "version") {
-      newHistory.push({ type: "output", content: "Tharusha Portfolio Shell v1.2.0 (Stable)" });
+      newHistory.push({ type: "output", content: "Tharusha Portfolio Shell v1.2.5 (Stable)" });
     } else if (trimmedCmd === "cat about") {
       newHistory.push({
         type: "output",
@@ -136,25 +308,24 @@ const InteractiveTerminal = () => {
       newHistory.push({ type: "output", content: "Session terminated. Re-initializing..." });
       setTimeout(() => {
         setHistory([
-          { type: "output", content: "Welcome to Tharusha's Interactive Terminal v1.2.0" },
+          { type: "output", content: "Welcome to Tharusha's Interactive Terminal v1.2.5" },
           { type: "output", content: "Type 'help' to see available commands." },
         ]);
       }, 1000);
     } else if (trimmedCmd === "github") {
       newHistory.push({ type: "output", content: "Opening GitHub Profile..." });
-      window.open("https://github.com", "_blank");
+      window.open("https://github.com/Ntharusha", "_blank");
     } else if (trimmedCmd === "") {
       // Do nothing for empty command
     } else {
       newHistory.push({ type: "error", content: `sh: command not found: ${trimmedCmd}. Type 'help' to see valid commands.` });
     }
 
-
     setHistory(newHistory);
     setInput("");
   };
 
-  const suggestions = ["ls", "neofetch", "cat about", "cat skills", "projects", "help"];
+  const suggestions = ["devops", "neofetch", "projects", "help", "clear"];
 
   const handleSuggestionClick = (suggestion: string) => {
     handleCommand(suggestion);
@@ -167,34 +338,46 @@ const InteractiveTerminal = () => {
   };
 
   return (
-    <section id="terminal" className="py-20 bg-background relative overflow-hidden">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="terminal" className="section-padding surface-base relative overflow-hidden">
+      <div className="container-custom max-w-4xl">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Interactive <span className="gradient-text">Terminal</span></h2>
-          <p className="text-muted-foreground">For the power users: navigate my world through a terminal interface.</p>
+          <p className="section-label">// System Console</p>
+          <h2 className="font-sora font-bold text-3xl text-[#dce4e5] mt-2 mb-4">
+            Interactive <span className="gradient-text">Terminal</span>
+          </h2>
+          <p className="font-geist text-sm text-[#849495] max-w-md mx-auto">
+            For the power users: learn DevOps concepts and run live pipeline simulations in the shell.
+          </p>
         </div>
 
-        <div 
-          className={`bg-[#0d1117] rounded-lg border border-border shadow-2xl overflow-hidden font-mono text-sm sm:text-base smooth-transition ${
-            isMaximized ? "fixed inset-4 z-50 h-[calc(100vh-32px)]" : "h-[450px]"
+        <div
+          className={`card-obsidian p-0 overflow-hidden font-mono-dev text-sm smooth-transition flex flex-col ${
+            isMaximized ? "fixed inset-4 z-50 h-[calc(100vh-32px)]" : "h-[400px]"
           }`}
+          style={{
+            borderColor: "rgba(0, 242, 255, 0.15)",
+            boxShadow: "0 0 40px rgba(0, 240, 255, 0.05)",
+          }}
           onClick={() => inputRef.current?.focus()}
         >
           {/* Terminal Header */}
-          <div className="bg-[#161b22] px-4 py-2 flex items-center justify-between border-b border-border">
+          <div className="bg-[#151d1e] px-4 py-2.5 flex items-center justify-between border-b border-[#2D2D30]">
             <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
-              <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
-              <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
-              <div className="ml-4 flex items-center space-x-2 text-muted-foreground opacity-60">
-                <TerminalIcon size={14} />
+              <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+              <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+              <div className="w-3 h-3 rounded-full bg-[#4AF626]" />
+              <div className="ml-4 flex items-center space-x-2 text-[#849495] opacity-80">
+                <TerminalIcon size={14} className="text-[#00f0ff]" />
                 <span className="text-xs">visitor@tharusha: ~</span>
               </div>
             </div>
-            <div className="flex items-center space-x-3 text-muted-foreground">
-              <button 
-                onClick={(e) => { e.stopPropagation(); setIsMaximized(!isMaximized); }}
-                className="hover:text-primary transition-colors"
+            <div className="flex items-center space-x-3 text-[#849495]">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsMaximized(!isMaximized);
+                }}
+                className="hover:text-[#00f0ff] transition-colors"
                 title={isMaximized ? "Minimize" : "Maximize"}
               >
                 {isMaximized ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
@@ -206,32 +389,36 @@ const InteractiveTerminal = () => {
           </div>
 
           {/* Terminal Content */}
-          <div 
-            ref={scrollRef}
-            className="p-6 overflow-y-auto h-[calc(100%-40px)] terminal-scrollbar scroll-smooth"
-          >
+          <div ref={scrollRef} className="p-5 overflow-y-auto flex-1 terminal-scrollbar scroll-smooth bg-[#0d1515]/90">
             <div className="space-y-1">
               {history.map((line, i) => (
-                <div key={i} className={`${
-                  line.type === "input" ? "text-blue-400" : 
-                  line.type === "error" ? "text-red-400" : "text-gray-300"
-                } leading-relaxed break-all whitespace-pre-line`}>
+                <div
+                  key={i}
+                  className={`${
+                    line.type === "input"
+                      ? "text-[#00f0ff]"
+                      : line.type === "error"
+                      ? "text-red-400"
+                      : "text-[#b9cacb]"
+                  } leading-relaxed break-all whitespace-pre-line`}
+                >
                   {line.content}
                 </div>
               ))}
-              
+
               <div className="flex items-center space-x-2 mt-2">
-                <span className="text-green-400 flex-shrink-0">visitor@tharusha:~$</span>
+                <span className="text-[#4AF626] flex-shrink-0">visitor@tharusha:~$</span>
                 <input
                   ref={inputRef}
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="flex-1 bg-transparent border-none outline-none text-gray-100 placeholder-transparent focus:ring-0"
+                  className="flex-1 bg-transparent border-none outline-none text-[#dce4e5] placeholder-transparent focus:ring-0 focus:outline-none p-0"
                   autoFocus
                   spellCheck="false"
                   autoComplete="off"
+                  disabled={isSimulating}
                 />
               </div>
             </div>
@@ -240,12 +427,12 @@ const InteractiveTerminal = () => {
 
         {/* Suggested Commands Help */}
         <div className="mt-4 flex flex-wrap gap-2 justify-center">
-          <span className="text-sm text-muted-foreground flex items-center mr-2">Quick Commands:</span>
+          <span className="text-xs text-[#849495] flex items-center mr-2 font-mono-dev">Quick Commands:</span>
           {suggestions.map((suggestion) => (
             <button
               key={suggestion}
               onClick={() => handleSuggestionClick(suggestion)}
-              className="px-3 py-1 text-xs rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 hover:border-primary/50 smooth-transition"
+              className="px-3 py-1 text-xs rounded-full bg-[rgba(0,240,255,0.06)] border border-[rgba(0,240,255,0.2)] text-[#00f0ff] hover:bg-[rgba(0,240,255,0.15)] hover:border-[#00f0ff]/50 smooth-transition font-mono-dev"
             >
               {suggestion}
             </button>
@@ -253,21 +440,25 @@ const InteractiveTerminal = () => {
         </div>
       </div>
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .terminal-scrollbar::-webkit-scrollbar {
           width: 8px;
         }
         .terminal-scrollbar::-webkit-scrollbar-track {
-          background: #0d1117;
+          background: #0d1515;
         }
         .terminal-scrollbar::-webkit-scrollbar-thumb {
-          background: #30363d;
+          background: #2D2D30;
           border-radius: 4px;
         }
         .terminal-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #484f58;
+          background: #00f0ff50;
         }
-      `}} />
+      `,
+        }}
+      />
     </section>
   );
 };

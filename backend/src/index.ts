@@ -15,9 +15,11 @@ app.use(express.json());
 
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/portfolio";
-mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGODB_URI, {
+  serverSelectionTimeoutMS: 2000,
+})
   .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Could not connect to MongoDB:", err));
+  .catch((err) => console.error("Could not connect to MongoDB:", err.message));
 
 // Email transporter setup
 const transporter = nodemailer.createTransport({
@@ -60,6 +62,10 @@ app.get("/", (req, res) => {
 // Projects Routes
 app.get("/api/projects", async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      console.warn("MongoDB is not connected. Returning empty project list.");
+      return res.json([]);
+    }
     const projects = await Project.find().sort({ createdAt: -1 });
     res.json(projects);
   } catch (error) {
@@ -75,6 +81,9 @@ app.post("/api/projects", async (req, res) => {
   }
 
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ message: "Database is offline. Cannot create project." });
+    }
     const newProject = new Project(req.body);
     await newProject.save();
     res.status(201).json(newProject);
@@ -93,39 +102,57 @@ app.post("/api/contact", async (req, res) => {
   }
 
   try {
-    // Save to database
-    const newContact = new Contact({ name, email, subject, message });
-    await newContact.save();
-
-    // Check if email config is present before sending
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      // Send email notification
-      const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: process.env.RECEIVER_EMAIL || process.env.EMAIL_USER,
-        subject: `New Contact Form Submission: ${subject}`,
-        html: `
-          <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-            <h2 style="color: #333;">New Contact Form Submission</h2>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Subject:</strong> ${subject}</p>
-            <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 5px;">
-              <strong>Message:</strong><br/>
-              ${message.replace(/\n/g, '<br/>')}
-            </div>
-          </div>
-        `,
-      };
-
-      await transporter.sendMail(mailOptions);
+    let savedToDb = false;
+    // Save to database only if connected
+    if (mongoose.connection.readyState === 1) {
+      const newContact = new Contact({ name, email, subject, message });
+      await newContact.save();
+      savedToDb = true;
     } else {
-      console.warn("Email configuration missing. Message saved to DB but not sent via email.");
+      console.warn("MongoDB is not connected. Skipping contact database save.");
+    }
+
+    // Check if email config is present and not placeholders before sending
+    const hasValidEmailConfig = 
+      process.env.EMAIL_USER && 
+      process.env.EMAIL_PASS && 
+      !process.env.EMAIL_USER.includes("your-email") && 
+      !process.env.EMAIL_PASS.includes("your-app-password");
+
+    if (hasValidEmailConfig) {
+      try {
+        // Send email notification
+        const mailOptions = {
+          from: process.env.EMAIL_USER,
+          to: process.env.RECEIVER_EMAIL || process.env.EMAIL_USER,
+          subject: `New Contact Form Submission: ${subject}`,
+          html: `
+            <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+              <h2 style="color: #333;">New Contact Form Submission</h2>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Subject:</strong> ${subject}</p>
+              <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 5px;">
+                <strong>Message:</strong><br/>
+                ${message.replace(/\n/g, '<br/>')}
+              </div>
+            </div>
+          `,
+        };
+
+        await transporter.sendMail(mailOptions);
+      } catch (emailErr: any) {
+        console.error("Failed to send email notification:", emailErr.message);
+      }
+    } else {
+      console.warn("Email configuration missing or using placeholder values. Message not sent via email.");
     }
 
     res.status(201).json({ 
       success: true, 
-      message: "Message received and saved successfully!" 
+      message: savedToDb 
+        ? "Message received and saved successfully!" 
+        : "Message received successfully! (Database offline)" 
     });
   } catch (error) {
     console.error("Error submitting contact form:", error);

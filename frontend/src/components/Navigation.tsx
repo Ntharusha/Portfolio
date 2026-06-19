@@ -1,104 +1,125 @@
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { triggerTransition } from "@/lib/transition";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [scrolled, setScrolled] = useState(false);
 
   const navItems = [
-    { id: "home", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "skills", label: "Skills" },
-    { id: "services", label: "Services" },
-    { id: "portfolio", label: "Portfolio" },
-    { id: "contact", label: "Contact" },
+    { id: "home", label: "STATION" },
+    { id: "about", label: "ABOUT" },
+    { id: "skills", label: "EXPERTISE" },
+    { id: "services", label: "SERVICES" },
+    { id: "portfolio", label: "LOGS" },
   ];
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = navItems.map(item => document.getElementById(item.id));
-      const scrollPosition = window.scrollY + 100;
+      setScrolled(window.scrollY > 20);
 
+      const sections = navItems.map((item) => document.getElementById(item.id));
+      const scrollPos = window.scrollY + 120;
       for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section && section.offsetTop <= scrollPosition) {
+        const s = sections[i];
+        if (s && s.offsetTop <= scrollPos) {
           setActiveSection(navItems[i].id);
           break;
         }
       }
     };
-
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  const scrollTo = (id: string) => {
+    triggerTransition(id);
     setIsOpen(false);
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-center md:justify-center items-center h-16">
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="flex items-baseline space-x-4">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`px-3 py-2 rounded-md text-sm font-medium smooth-transition ${
-                    activeSection === item.id
-                      ? "text-primary border-b-2 border-primary"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
+    <header
+      className={`fixed top-0 w-full z-50 border-b navbar-header ${
+        scrolled ? "navbar-scrolled" : "navbar-unscrolled"
+      }`}
+    >
+      <nav
+        className={`flex justify-between items-center px-6 md:px-20 max-w-[1200px] mx-auto navbar-nav transition-all duration-500 ease-in-out ${
+          scrolled ? "py-3" : "py-5"
+        }`}
+      >
+        <button
+          onClick={() => scrollTo("home")}
+          className="font-mono text-xl text-primary font-bold tracking-tighter"
+        >
+          DEVOPS_ARCHITECT
+        </button>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center space-x-8 font-mono text-sm">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => scrollTo(item.id)}
+              className={`nav-link-underline pb-1 transition-colors duration-300 ${
+                activeSection === item.id
+                  ? "text-[#00f2ff] font-semibold"
+                  : "text-[#b9cacb] hover:text-[#00f2ff]"
+              }`}
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
-          </div>
+              {item.label}
+            </button>
+          ))}
         </div>
-      </div>
 
-      {/* Mobile Navigation */}
-      {isOpen && (
-        <div className="md:hidden bg-background border-t border-border">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`block px-3 py-2 rounded-md text-base font-medium w-full text-left smooth-transition ${
-                  activeSection === item.id
-                    ? "text-primary bg-primary/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+        {/* Action Button */}
+        <div className="hidden md:flex items-center space-x-6">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#10b981]/5 border border-[#10b981]/20 text-[#10b981] font-mono text-[10px] tracking-wider">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
+            SYS_STATUS: ACTIVE
           </div>
+          <button
+            onClick={() => scrollTo("contact")}
+            className="liquid-glow-btn bg-[#00f2ff] text-[#00363a] px-6 py-2 font-mono text-sm font-semibold rounded-lg shadow-[0_0_10px_rgba(0,242,255,0.2)]"
+          >
+            INIT_SESSION
+          </button>
+        </div>
+
+        {/* Mobile menu toggle */}
+        <button
+          className="md:hidden text-[#b9cacb] hover:text-[#00f2ff] transition-colors p-1"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </nav>
+
+      {/* Mobile Navigation Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-[#0d1515] border-t border-[#00f2ff]/10 py-4 px-6 flex flex-col gap-2">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => scrollTo(item.id)}
+              className={`text-left py-3 font-mono text-sm tracking-wider transition-colors ${
+                activeSection === item.id ? "text-[#00f2ff]" : "text-[#b9cacb]"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+          <button
+            onClick={() => scrollTo("contact")}
+            className="liquid-glow-btn bg-[#00f2ff] text-[#00363a] py-3 rounded-lg font-mono text-sm font-semibold mt-3 text-center"
+          >
+            INIT_SESSION
+          </button>
         </div>
       )}
-    </nav>
+    </header>
   );
 };
 

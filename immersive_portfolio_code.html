@@ -1,0 +1,735 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>DEVOPS_ARCHITECT | Tharusha Bhashitha</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        :root {
+            --primary-glow: rgba(0, 242, 255, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: #0d1515;
+            color: #dce4e4;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-mono-technical { font-family: 'JetBrains Mono', monospace; }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            transition: transform 0.1s ease-out, border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+            will-change: transform;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(0, 242, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px -10px rgba(0, 242, 255, 0.15);
+        }
+
+        .liquid-glow-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .liquid-glow-btn:hover {
+            box-shadow: 0 0 20px var(--primary-glow);
+            transform: translateY(-1px);
+        }
+
+        .nav-link-underline {
+            position: relative;
+        }
+
+        .nav-link-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00f2ff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link-underline:hover::after {
+            width: 100%;
+        }
+
+        .skill-progress {
+            background: rgba(255, 255, 255, 0.05);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .skill-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #006a71, #00f2ff);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.17, 0.55, 0.55, 1);
+        }
+
+        .status-pulse {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .cursor-terminal { cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="fill:none;stroke:%2300f2ff;stroke-width:2"><path d="M5 5l5 5-5 5M12 15h5"/></svg>'), auto; }
+
+        .reveal-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal-section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .portrait-container img {
+            filter: grayscale(100%);
+            transition: filter 0.5s ease, transform 0.5s ease;
+        }
+
+        .portrait-container:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#b9cacb",
+                        "on-primary-container": "#006a71",
+                        "surface-bright": "#333b3b",
+                        "background": "#0d1515",
+                        "surface-container": "#192122",
+                        "outline": "#849495",
+                        "surface-container-low": "#151d1e",
+                        "inverse-surface": "#dce4e4",
+                        "surface-variant": "#2e3637",
+                        "primary-fixed": "#74f5ff",
+                        "slate-body": "#94a3b8",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#e9ddff",
+                        "secondary": "#d1bcff",
+                        "on-tertiary": "#3b2f00",
+                        "primary": "#e1fdff",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#725e00",
+                        "surface": "#0d1515",
+                        "on-primary-fixed": "#002022",
+                        "secondary-fixed-dim": "#d1bcff",
+                        "inverse-on-surface": "#2a3232",
+                        "tertiary": "#fff6e4",
+                        "primary-container": "#00f2ff",
+                        "on-primary": "#00363a",
+                        "on-secondary": "#3c0090",
+                        "on-background": "#dce4e4",
+                        "surface-container-lowest": "#080f10",
+                        "tertiary-fixed-dim": "#e8c423",
+                        "error-red": "#ff4b4b",
+                        "terminal-green": "#10b981",
+                        "error-container": "#93000a",
+                        "surface-glass": "rgba(255, 255, 255, 0.03)",
+                        "surface-container-highest": "#2e3637",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#5700c9",
+                        "on-surface": "#dce4e4",
+                        "on-secondary-fixed": "#23005b",
+                        "outline-variant": "#3a494b",
+                        "inverse-primary": "#00696f",
+                        "tertiary-fixed": "#ffe173",
+                        "surface-tint": "#00dbe7",
+                        "on-tertiary-fixed-variant": "#554500",
+                        "on-secondary-container": "#ddcdff",
+                        "tertiary-container": "#fed83a",
+                        "on-primary-fixed-variant": "#004f54",
+                        "surface-container-high": "#232b2c",
+                        "surface-dim": "#0d1515",
+                        "deep-space": "#0a0a0c",
+                        "secondary-container": "#7000ff",
+                        "on-tertiary-fixed": "#221b00",
+                        "primary-fixed-dim": "#00dbe7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "container-max": "1200px",
+                        "unit": "4px",
+                        "margin-desktop": "80px"
+                    },
+                    "fontFamily": {
+                        "label-mono": ["JetBrains Mono"],
+                        "code-sm": ["JetBrains Mono"],
+                        "display-lg": ["JetBrains Mono"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "display-lg-mobile": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "label-mono": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "code-sm": ["13px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background selection:bg-primary-container selection:text-on-primary-container cursor-terminal">
+<!-- BACKGROUND SHADER -->
+<!-- STITCH_SHADER_START:ANIMATION_12 class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-60" -->
+<div class="fixed inset-0 w-full h-full -z-10 pointer-events-none opacity-60" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_12" style="display:block;width:100%;height:100%" width="1280" height="3939"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_12');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+varying vec2 v_texCoord;
+
+float hash(vec2 p) {
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+}
+
+void main() {
+    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+    vec2 m = u_mouse.xy / u_resolution.xy;
+    
+    // Adjust aspect ratio
+    float aspect = u_resolution.x / u_resolution.y;
+    vec2 centeredUv = (uv - 0.5) * vec2(aspect, 1.0);
+    
+    float time = u_time * 0.2;
+    
+    // Deep Space Background
+    vec3 colorBg = vec3(0.05, 0.08, 0.08); // Dark teal-tinted black
+    vec3 colorPrimary = vec3(0.0, 0.95, 1.0); // Neon Cyan
+    
+    // Dynamic Grid System
+    vec2 gridUv = centeredUv * 15.0;
+    vec2 gridId = floor(gridUv);
+    vec2 gridF = fract(gridUv) - 0.5;
+    
+    float gridLine = smoothstep(0.48, 0.5, max(abs(gridF.x), abs(gridF.y)));
+    float gridPulse = sin(time + hash(gridId) * 6.28) * 0.5 + 0.5;
+    
+    // Energy Conduits (Moving waves)
+    float conduits = 0.0;
+    for(float i = 1.0; i < 5.0; i++) {
+        float speed = i * 0.3;
+        float freq = i * 2.0;
+        float amp = 0.05 / i;
+        conduits += amp / abs(sin(centeredUv.x * freq + time * speed + m.x) * 0.5 - centeredUv.y);
+    }
+    
+    // Data "Pulses" (Flickering bits)
+    float dataBits = smoothstep(0.9, 0.99, hash(gridId + floor(time * 2.0)));
+    dataBits *= (1.0 - length(gridF) * 2.0);
+    
+    // Mouse Interaction (Glow)
+    float mouseGlow = 0.15 / (length(uv - m) + 0.1);
+    
+    // Composition
+    vec3 color = colorBg;
+    color += colorPrimary * gridLine * gridPulse * 0.1;
+    color += colorPrimary * conduits * 0.4;
+    color += colorPrimary * dataBits * 0.2;
+    color += colorPrimary * mouseGlow * 0.1;
+    
+    // Vignette
+    float vignette = smoothstep(1.5, 0.5, length(centeredUv));
+    color *= vignette;
+    
+    gl_FragColor = vec4(color, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_12 -->
+<!-- TOP NAVIGATION BAR -->
+<header class="sticky top-0 w-full z-50 bg-surface-glass backdrop-blur-xl border-b border-outline-variant/10 shadow-[0_0_15px_rgba(0,242,255,0.1)]">
+<nav class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="font-display-lg text-headline-md md:text-display-lg text-primary tracking-tighter">
+                DEVOPS_ARCHITECT
+            </div>
+<div class="hidden md:flex items-center space-x-8 font-label-mono text-label-mono">
+<a class="text-primary-container border-b-2 border-primary-container pb-1 nav-link-underline" href="#station">STATION</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 nav-link-underline" href="#about">ABOUT</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 nav-link-underline" href="#expertise">EXPERTISE</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 nav-link-underline" href="#services">SERVICES</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-300 nav-link-underline" href="#logs">LOGS</a>
+</div>
+<button class="liquid-glow-btn bg-primary-container text-on-primary px-6 py-2 font-label-mono rounded-lg">
+                INIT_SESSION
+            </button>
+</nav>
+</header>
+<!-- SIDE NAVIGATION (SOCIALS) -->
+<aside class="fixed left-0 top-1/2 -translate-y-1/2 rounded-r-xl bg-surface-glass backdrop-blur-lg border-r border-outline-variant/10 shadow-xl flex flex-col items-center py-gutter space-y-6 w-16 z-40 hidden md:flex">
+<div class="group flex flex-col items-center gap-6">
+<a class="text-on-surface-variant hover:text-primary hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">code</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">share</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">terminal</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">mail</span>
+</a>
+</div>
+</aside>
+<main class="relative z-10">
+<!-- HERO SECTION -->
+<section class="min-h-screen flex items-center px-margin-mobile md:px-margin-desktop py-20 max-w-container-max mx-auto" id="station">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="reveal-section active">
+<div class="flex items-center gap-2 mb-6 text-terminal-green font-label-mono text-sm">
+<span class="status-pulse"></span>
+                        SYSTEM_STATUS: ACTIVE // ROOT_READY
+                    </div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6 leading-[1.05]">
+                        ARCHITECTING <br>
+<span class="text-primary-container">SCALABLE FUTURE</span> <br>
+                        THROUGH DEVOPS.
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-xl">
+                        I am Tharusha Bhashitha, a DevOps Engineer dedicated to streamlining development lifecycles and optimizing cloud infrastructure for maximum reliability.
+                    </p>
+<div class="flex flex-wrap gap-4">
+<button class="liquid-glow-btn bg-primary-container text-on-primary font-label-mono px-8 py-4 rounded-lg flex items-center gap-2">
+                            VIEW_PROJECTS
+                            <span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+<button class="glass-card px-8 py-4 rounded-lg font-label-mono text-primary flex items-center gap-2 border border-outline-variant/30" style="transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px); background-image: none;">
+                            DOWNLOAD_CV
+                            <span class="material-symbols-outlined text-xl">download</span>
+</button>
+</div>
+</div>
+<div class="relative reveal-section active" style="transition-delay: 200ms;">
+<div class="relative w-full aspect-square max-w-[450px] mx-auto p-6 rounded-full">
+<!-- Rotating Glow Ring -->
+<div class="absolute inset-0 rounded-full border-2 border-primary-container/30 animate-[spin_12s_linear_infinite] before:content-[''] before:absolute before:-inset-2 before:rounded-full before:border-2 before:border-primary-container/10"></div>
+<!-- Atmospheric Pulse -->
+<div class="absolute inset-0 rounded-full bg-primary-container/5 animate-pulse"></div>
+<!-- Image Container -->
+<div class="relative h-full w-full rounded-full overflow-hidden border border-outline-variant/30 z-10 shadow-2xl">
+<img alt="Tharusha Bhashitha Portrait" class="w-full h-full object-cover rounded-full scale-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoKx5O5ILT6hl2rc-xh6h-XBl88Z2K3UA_RPjwlfSbGgZMwCu-jHeBvGRLih47q-HhTl9-hZ8mRSXsrr1QhqepLhWeDhSPsNuL9ZusuDVzcTAuwU4ajPR-QCgb1X4uOFvNaLRvCNAI480W9LT2xaH0xCVZQmYS9ddbYe4B9vYr9Gq-18SkTemR4rUcpbpZaHiEQ_rE6mMcro_-toiHHNQ21g5pkmgVVKsskg_sI6xzkWKP7Dm9mqVM8tX7DycSc0q8OrV4Mbtvu8E">
+<div class="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent pointer-events-none"></div>
+</div>
+<!-- Mini terminal overlay decor -->
+<div class="absolute -bottom-4 -right-4 glass-card p-4 rounded-xl z-20 hidden md:block border border-primary-container/20" style="transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px); background-image: none;">
+<div class="font-label-mono text-[10px] text-terminal-green leading-tight">
+                                &gt; uptime: 24h 12m<br>
+                                &gt; latency: 12ms<br>
+                                &gt; nodes: healthy
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ABOUT SECTION -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto reveal-section active" id="about">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<div class="lg:col-span-4">
+<h2 class="font-display-lg text-headline-md text-primary mb-4">IDENTIFICATION_</h2>
+<div class="w-16 h-1 bg-primary-container mb-8"></div>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                        With a foundation in software engineering and a passion for automation, I bridge the gap between development and operations. My approach focuses on security, performance, and continuous improvement.
+                    </p>
+</div>
+<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="glass-card p-8 rounded-xl">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-4">cloud_done</span>
+<h3 class="font-headline-md text-primary mb-2">Cloud Infrastructure</h3>
+<p class="text-on-surface-variant font-body-md">Designing high-availability architectures on AWS, Azure, and GCP.</p>
+</div>
+<div class="glass-card p-8 rounded-xl">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-4">settings_suggest</span>
+<h3 class="font-headline-md text-primary mb-2">CI/CD Pipelines</h3>
+<p class="text-on-surface-variant font-body-md">Automating everything from testing to production deployment.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- TECHNICAL EXPERTISE GRID -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop bg-surface-container-lowest/50 reveal-section active" id="expertise">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-display-lg text-headline-md text-primary mb-4 uppercase tracking-widest">TECHNICAL_STACK</h2>
+<p class="font-label-mono text-on-surface-variant">Precision instruments for high-stakes environments</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Docker -->
+<div class="glass-card p-6 rounded-xl border-l-4 border-l-primary-container/50">
+<div class="flex justify-between items-end mb-4">
+<h4 class="font-label-mono text-primary">DOCKER</h4>
+<span class="font-label-mono text-primary-container">95%</span>
+</div>
+<div class="skill-progress">
+<div class="skill-progress-bar" data-width="95%" style="width: 95%;"></div>
+</div>
+</div>
+<!-- Kubernetes -->
+<div class="glass-card p-6 rounded-xl border-l-4 border-l-primary-container/50">
+<div class="flex justify-between items-end mb-4">
+<h4 class="font-label-mono text-primary">KUBERNETES</h4>
+<span class="font-label-mono text-primary-container">90%</span>
+</div>
+<div class="skill-progress">
+<div class="skill-progress-bar" data-width="90%" style="width: 90%;"></div>
+</div>
+</div>
+<!-- AWS -->
+<div class="glass-card p-6 rounded-xl border-l-4 border-l-primary-container/50">
+<div class="flex justify-between items-end mb-4">
+<h4 class="font-label-mono text-primary">AWS_CLOUD</h4>
+<span class="font-label-mono text-primary-container">85%</span>
+</div>
+<div class="skill-progress">
+<div class="skill-progress-bar" data-width="85%" style="width: 85%;"></div>
+</div>
+</div>
+<!-- Terraform -->
+<div class="glass-card p-6 rounded-xl border-l-4 border-l-primary-container/50">
+<div class="flex justify-between items-end mb-4">
+<h4 class="font-label-mono text-primary">TERRAFORM_IAC</h4>
+<span class="font-label-mono text-primary-container">88%</span>
+</div>
+<div class="skill-progress">
+<div class="skill-progress-bar" data-width="88%" style="width: 88%;"></div>
+</div>
+</div>
+<!-- Python -->
+<div class="glass-card p-6 rounded-xl border-l-4 border-l-primary-container/50">
+<div class="flex justify-between items-end mb-4">
+<h4 class="font-label-mono text-primary">PYTHON_AUTOMATION</h4>
+<span class="font-label-mono text-primary-container">82%</span>
+</div>
+<div class="skill-progress">
+<div class="skill-progress-bar" data-width="82%" style="width: 82%;"></div>
+</div>
+</div>
+<!-- Linux -->
+<div class="glass-card p-6 rounded-xl border-l-4 border-l-primary-container/50">
+<div class="flex justify-between items-end mb-4">
+<h4 class="font-label-mono text-primary">LINUX_KERNEL</h4>
+<span class="font-label-mono text-primary-container">94%</span>
+</div>
+<div class="skill-progress">
+<div class="skill-progress-bar" data-width="94%" style="width: 94%;"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SERVICES SECTION -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto reveal-section active" id="services">
+<h2 class="font-display-lg text-headline-md text-primary mb-12 flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container">architecture</span>
+                CORE_SERVICES
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="glass-card p-10 rounded-2xl flex flex-col justify-between h-[300px]">
+<div>
+<div class="text-4xl mb-6 font-label-mono text-primary/20">01</div>
+<h3 class="font-headline-md text-primary mb-4">Infrastructure as Code</h3>
+<p class="text-on-surface-variant font-body-md">Programmable infrastructure that is versioned, tested, and reliable across all environments.</p>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant/50 text-xs font-label-mono text-primary-container rounded">TERRAFORM</span>
+<span class="px-3 py-1 bg-surface-variant/50 text-xs font-label-mono text-primary-container rounded">ANSIBLE</span>
+</div>
+</div>
+<div class="glass-card p-10 rounded-2xl flex flex-col justify-between h-[300px]">
+<div>
+<div class="text-4xl mb-6 font-label-mono text-primary/20">02</div>
+<h3 class="font-headline-md text-primary mb-4">CI/CD Implementation</h3>
+<p class="text-on-surface-variant font-body-md">Streamlining release cycles with Jenkins, GitLab CI, and GitHub Actions for zero-downtime deployments.</p>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant/50 text-xs font-label-mono text-primary-container rounded">JENKINS</span>
+<span class="px-3 py-1 bg-surface-variant/50 text-xs font-label-mono text-primary-container rounded">ACTIONS</span>
+</div>
+</div>
+<div class="glass-card p-10 rounded-2xl flex flex-col justify-between h-[300px]">
+<div>
+<div class="text-4xl mb-6 font-label-mono text-primary/20">03</div>
+<h3 class="font-headline-md text-primary mb-4">Container Orchestration</h3>
+<p class="text-on-surface-variant font-body-md">Managing complex microservices architectures with Kubernetes and high-performance container tuning.</p>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant/50 text-xs font-label-mono text-primary-container rounded">K8S</span>
+<span class="px-3 py-1 bg-surface-variant/50 text-xs font-label-mono text-primary-container rounded">HELM</span>
+</div>
+</div>
+<div class="glass-card p-10 rounded-2xl flex flex-col justify-between h-[300px]">
+<div>
+<div class="text-4xl mb-6 font-label-mono text-primary/20">04</div>
+<h3 class="font-headline-md text-primary mb-4">DevSecOps Integration</h3>
+<p class="text-on-surface-variant font-body-md">Embedding security into the automated pipeline to ensure compliance and vulnerability protection.</p>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-variant/50 text-xs font-label-mono text-primary-container rounded">SONARQUBE</span>
+<span class="px-3 py-1 bg-surface-variant/50 text-xs font-label-mono text-primary-container rounded">VAULT</span>
+</div>
+</div>
+</div>
+</section>
+<!-- PORTFOLIO SHOWCASE -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop bg-surface-container-low/30 reveal-section active" id="logs">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-display-lg text-headline-md text-primary mb-12">DEPLOYMENT_HISTORY</h2>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Project 1 -->
+<div class="md:col-span-7 glass-card overflow-hidden group">
+<div class="h-64 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-700" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuC7rdoMMpxDVcvCXPkI2tCOgs5g7hDxHWM8nSt6_JY6ilV07i4mkPom_eBAjwB931IxzsaaeRbQrchoLJcciygCA5YNu2rLjmoCFmMniihttJ1e5KEEwDbEcmaX-FWIbTkjJ-qKrgDbeMfmm530L77PO2cgfHO_81W9WIjzQ3MLmceH3VleRNO5zs0TYb9GU7ZzmRjcX8zNg8FcHhE4AOTaV6fQF8M8bJ2ajlvoy_DrgOqc6KDlpj1i_cw0ntnAP4xdoXEv-rSyDro&quot;);"></div>
+</div>
+<div class="p-8">
+<span class="text-terminal-green font-label-mono text-xs mb-2 block uppercase">CLIENT: FINTECH_SOLUTIONS</span>
+<h3 class="font-headline-md text-primary mb-4">Multi-Cloud K8s Migration</h3>
+<p class="text-on-surface-variant font-body-md mb-6">Successfully migrated legacy monolith infrastructure to a cloud-native Kubernetes environment across AWS and Azure.</p>
+<a class="text-primary-container font-label-mono flex items-center gap-2 hover:translate-x-2 transition-transform" href="#">
+                                ACCESS_CASE_STUDY <span class="material-symbols-outlined text-sm">launch</span>
+</a>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="md:col-span-5 glass-card overflow-hidden group">
+<div class="h-64 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-700" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCRHPvL_9JCB2OIzHYj3LjMGhaziBolD9Aj-tUq7WO3A6h5fpot1h9EfHO7IAmHFhxG2paQOpybXbCZPPzdizBkrD6WrqX1ujnC62djyaNxeLtWLtPb32VynSwzfxoztaXpBlvHYwZDdqS8KizoxU3LssJoN6T-yI3xRMkP6wHeZUeRr4Z_5BJjzmaVatYUXfqut_0IhLD3CdtPGn_aNoO5vJx5MbqOo5bKn59-I7v1Ot6Ijb7N0u0K_A09E7PHyZnxWfLw6VSI4U4&quot;);"></div>
+</div>
+<div class="p-8">
+<span class="text-terminal-green font-label-mono text-xs mb-2 block uppercase">CLIENT: E_COM_GLOBAL</span>
+<h3 class="font-headline-md text-primary mb-4">Auto-Scaling Optimization</h3>
+<p class="text-on-surface-variant font-body-md mb-6">Reduced infrastructure costs by 40% through custom auto-scaling scripts and spot instance orchestration.</p>
+<a class="text-primary-container font-label-mono flex items-center gap-2 hover:translate-x-2 transition-transform" href="#">
+                                ACCESS_CASE_STUDY <span class="material-symbols-outlined text-sm">launch</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/5 py-12 relative z-10">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="text-center md:text-left">
+<div class="font-label-mono text-label-mono text-on-surface mb-2 uppercase">DEVOPS_ARCHITECT</div>
+<div class="font-code-sm text-code-sm text-terminal-green/80">© 2024 DEVOPS_ARCHITECT // SYSTEM_STABLE</div>
+</div>
+<div class="flex gap-12 font-code-sm text-code-sm">
+<div class="flex items-center gap-2">
+<span class="status-pulse"></span>
+<span class="text-terminal-green">STATUS: ONLINE</span>
+</div>
+<div class="text-on-surface-variant font-label-mono">UPTIME: 99.99%</div>
+</div>
+<div class="flex gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">terminal</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">database</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">hub</span>
+</a>
+</div>
+</div>
+</footer>
+<script>
+        // Intersection Observer for Reveal Animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    // Trigger skill bars if they exist in this section
+                    const bars = entry.target.querySelectorAll('.skill-progress-bar');
+                    bars.forEach((bar, index) => {
+                        setTimeout(() => {
+                            const width = bar.getAttribute('data-width');
+                            bar.style.width = width;
+                        }, index * 100);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-section').forEach(section => {
+            revealObserver.observe(section);
+        });
+
+        // 3D Tilt Interaction for Glass Cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // Sensitive but subtle tilt
+                const rotateX = (centerY - y) / 20;
+                const rotateY = (x - centerX) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+                
+                // Dynamic border glow tracking
+                const glowX = (x / rect.width) * 100;
+                const glowY = (y / rect.height) * 100;
+                card.style.backgroundImage = `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(0, 242, 255, 0.08), transparent)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
+                card.style.backgroundImage = 'none';
+            });
+        });
+
+        // Smooth scroll for anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+
+
+</body></html>

@@ -1,139 +1,104 @@
-import { 
-  Server, 
-  Code, 
-  GitBranch, 
-  Cloud, 
-  Container, 
-  Palette, 
-  Network,
-  Terminal,
-  Layers
-} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Server, Code, GitBranch, Cloud, Container, Network, Terminal, Layers } from "lucide-react";
+import { useInView } from "@/hooks/use-in-view";
+import SectionScanner from "@/components/SectionScanner";
 
-const SkillsSection = () => {
-  const technicalSkills = [
-    {
-      icon: Cloud,
-      title: "Cloud Computing",
-      description: "AWS (EC2, S3, IAM basics)",
-      level: 70
-    },
-    {
-      icon: Layers,
-      title: "Infrastructure as Code",
-      description: "Terraform, OpenTofu",
-      level: 80
-    },
-    {
-      icon: Container,
-      title: "Containerization & Orchestration",
-      description: "Docker, Docker Compose, Kubernetes (Basic)",
-      level: 75
-    },
-    {
-      icon: Server,
-      title: "CI/CD & Automation",
-      description: "Jenkins, GitHub Actions, Argo CD, Ansible",
-      level: 80
-    },
-    {
-      icon: Network,
-      title: "Monitoring & Logging",
-      description: "Prometheus, Grafana, Linux system monitoring tools",
-      level: 75
-    },
-    {
-      icon: Terminal,
-      title: "Operating Systems",
-      description: "Linux (Ubuntu, System Administration, CLI)",
-      level: 90
-    },
-    {
-      icon: GitBranch,
-      title: "Version Control",
-      description: "Git, GitHub",
-      level: 85
-    },
-    {
-      icon: Code,
-      title: "Scripting & Backend",
-      description: "Python, Bash, Node.js",
-      level: 80
-    },
-    {
-      icon: Network,
-      title: "Networking",
-      description: "TCP/IP, DNS, Troubleshooting",
-      level: 75
-    }
-  ];
+const skills = [
+  { icon: Terminal,  title: "Linux & OS",            description: "Ubuntu · System Admin · CLI",           level: 90, color: "#00f2ff" },
+  { icon: GitBranch, title: "Version Control",        description: "Git · GitHub",                         level: 85, color: "#00f2ff" },
+  { icon: Layers,    title: "Infrastructure as Code", description: "Terraform · OpenTofu · Ansible",       level: 80, color: "#00f2ff" },
+  { icon: Server,    title: "CI/CD & Automation",     description: "Jenkins · GitHub Actions · Argo CD",   level: 80, color: "#00f2ff" },
+  { icon: Code,      title: "Scripting & Backend",    description: "Python · Bash · Node.js",              level: 80, color: "#00f2ff" },
+  { icon: Container, title: "Containers & Orchestration", description: "Docker · Docker Compose · K8s",   level: 75, color: "#00f2ff" },
+  { icon: Network,   title: "Monitoring & Logging",   description: "Prometheus · Grafana · Linux tools",   level: 75, color: "#00f2ff" },
+  { icon: Cloud,     title: "Cloud Computing",         description: "AWS (EC2, S3, IAM, VPC)",             level: 70, color: "#00f2ff" },
+  { icon: Network,   title: "Networking",              description: "TCP/IP · DNS · Troubleshooting",      level: 75, color: "#00f2ff" },
+];
 
-  const SkillCard = ({ skill, index }: { skill: any; index: number }) => {
-    const Icon = skill.icon;
-    
-    return (
-      <div 
-        className="bg-card rounded-lg p-6 border border-border card-hover animate-in fade-in slide-in-from-bottom-5 duration-500 fill-mode-both"
-        style={{ animationDelay: `${index * 100}ms` }}
-      >
-        <div className="flex items-start space-x-4">
-          <div className="flex-shrink-0">
-            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-              <Icon className="h-6 w-6 text-primary" />
-            </div>
-          </div>
-          <div className="flex-1">
-            <h4 className="font-semibold mb-2">{skill.title}</h4>
-            <p className="text-sm text-muted-foreground mb-4">{skill.description}</p>
-            
-            {/* Skill Level */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Proficiency</span>
-                <span className="text-primary font-medium">{skill.level}%</span>
-              </div>
-              <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-                <div 
-                  className="bg-accent-gradient h-2 rounded-full smooth-transition"
-                  style={{ width: `${skill.level}%` }}
-                ></div>
-              </div>
-            </div>
-          </div>
+const SkillCard = ({ skill, index, animate }: { skill: typeof skills[0]; index: number; animate: boolean }) => {
+  const Icon = skill.icon;
+  return (
+    <div
+      className={`glass-card p-6 rounded-xl border border-[#3a494b]/10 group transition-all duration-500 hover:-translate-y-2 hover:border-[#00f2ff]/40 hover:shadow-[0_10px_30px_-5px_rgba(0,242,255,0.2)] ${
+        animate ? "opacity-100 translate-y-0 animate-fade-up" : "opacity-0 translate-y-8"
+      }`}
+      style={{ animationDelay: `${index * 60}ms` }}
+    >
+      {/* Icon + Title */}
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-[#00f2ff]/5 border border-[#00f2ff]/20">
+          <Icon size={18} className="text-[#00f2ff]" />
+        </div>
+        <div>
+          <h4 className="font-mono text-sm font-semibold text-[#dce4e5]">{skill.title}</h4>
+          <p className="font-mono text-[11px] text-[#b9cacb]/70 mt-0.5">{skill.description}</p>
         </div>
       </div>
-    );
-  };
+
+      {/* Progress bar */}
+      <div className="space-y-1.5">
+        <div className="flex justify-between">
+          <span className="font-mono text-[10px] text-[#b9cacb]/60">METRIC_CAPACITY</span>
+          <span className="font-mono text-[11px] font-bold text-[#00f2ff]">
+            {skill.level}%
+          </span>
+        </div>
+        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-[#006a71] to-[#00f2ff] shadow-[0_0_10px_rgba(0,242,255,0.5)] transition-all duration-1000 ease-out"
+            style={{
+              width: animate ? `${skill.level}%` : "0%",
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const SkillsSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const inView = useInView(sectionRef as React.RefObject<HTMLElement>);
 
   return (
-    <section id="skills" className="py-20 bg-background relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Technical <span className="gradient-text">Expertise</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            A comprehensive suite of technical skills focused on systems automation, reliability, and cloud infrastructure.
+    <section id="skills" ref={sectionRef} className="py-24 px-6 md:px-20 max-w-[1200px] mx-auto overflow-hidden relative">
+      <SectionScanner inView={inView} />
+      {/* Header */}
+      <div className="mb-14">
+        <h2 className="font-mono text-2xl text-primary mb-4 tracking-wider uppercase font-bold">
+          EXPERTISE_
+        </h2>
+        <div className="w-16 h-1 bg-[#00f2ff] mb-8"></div>
+        <p className="font-sans text-[#b9cacb] max-w-xl leading-relaxed text-sm">
+          A comprehensive suite of skills focused on systems automation, reliability, and cloud infrastructure.
+        </p>
+      </div>
+
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {skills.map((skill, i) => (
+          <SkillCard key={skill.title} skill={skill} index={i} animate={inView} />
+        ))}
+      </div>
+
+      {/* Tech chips row */}
+      <div className="mt-12 flex flex-wrap gap-3 justify-center">
+        {["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins", "Argo CD", "Prometheus", "Grafana", "GitHub Actions", "Ansible", "Python", "Bash", "Node.js", "Linux", "Git"].map((tech) => (
+          <span key={tech} className="font-mono text-xs px-3 py-1 rounded bg-[#00f2ff]/5 border border-[#00f2ff]/20 text-[#00f2ff]">
+            {tech}
+          </span>
+        ))}
+      </div>
+
+      {/* Summary */}
+      <div className="mt-14">
+        <div className="glass-card p-8 rounded-xl border border-[#00f2ff]/10 text-center max-w-3xl mx-auto">
+          <p className="font-mono text-xs text-[#00f2ff]/75 mb-3 uppercase tracking-widest">// COMMITMENT TO QUALITY</p>
+          <p className="font-sans text-[#b9cacb] text-sm leading-relaxed">
+            With a deep focus on DevOps principles and systems engineering, I deliver robust, scalable,
+            and automated solutions. My expertise spans Linux administration, cloud infrastructure,
+            and CI/CD pipelines — ensuring high availability and efficiency for modern technical projects.
           </p>
-        </div>
-
-        {/* Technical Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {technicalSkills.map((skill, index) => (
-            <SkillCard key={skill.title} skill={skill} index={index} />
-          ))}
-        </div>
-
-        {/* Skills Summary */}
-        <div className="mt-16 text-center">
-          <div className="bg-card rounded-xl p-8 border border-border max-w-4xl mx-auto shadow-sm">
-            <h4 className="text-xl font-semibold mb-4">Commitment to Quality</h4>
-            <p className="text-muted-foreground leading-relaxed">
-              With a deep focus on DevOps principles and systems engineering, I deliver robust, scalable, 
-              and automated solutions. My expertise spans across Linux administration, cloud infrastructure, 
-              and CI/CD pipelines, ensuring high availability and efficiency for modern technical projects.
-            </p>
-          </div>
         </div>
       </div>
     </section>

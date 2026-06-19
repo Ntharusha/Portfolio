@@ -4,7 +4,9 @@
   "description": "Backend for portfolio application",
   "main": "dist/index.js",
   "scripts": {
+    "prestart": "node kill_backend.js",
     "start": "tsc && node dist/index.js",
+    "predev": "node kill_backend.js",
     "dev": "nodemon src/index.ts",
     "build": "tsc"
   },

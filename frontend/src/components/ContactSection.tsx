@@ -1,261 +1,188 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { useState, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  Mail, 
-  Phone, 
-  Linkedin, 
-  Facebook, 
-  Send,
-  MapPin
-} from "lucide-react";
-
+import { Mail, Phone, Linkedin, MapPin, Send, Github } from "lucide-react";
 import { API_URL } from "@/lib/api-config";
+import { useInView } from "@/hooks/use-in-view";
+import SectionScanner from "@/components/SectionScanner";
 
 const ContactSection = () => {
   const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: ""
-  });
+  const sectionRef = useRef<HTMLElement>(null);
+  const inView = useInView(sectionRef);
+  const [formData, setFormData] = useState({ name: "", email: "", projectType: "DevOps & CI/CD", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const projectTypes = ["DevOps & CI/CD", "Cloud Infrastructure", "System Automation", "Monitoring Setup", "General Inquiry"];
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
-      const response = await fetch(`${API_URL}/contact`, {
+      const payload = { ...formData, subject: formData.projectType };
+      const res = await fetch(`${API_URL}/contact`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        toast({
-          title: "Message Sent!",
-          description: data.message || "Thank you for your message. I'll get back to you soon!",
-        });
-        setFormData({ name: "", email: "", subject: "", message: "" });
+      const data = await res.json();
+      if (res.ok) {
+        toast({ title: "Message Sent!", description: data.message || "I'll get back to you soon!" });
+        setFormData({ name: "", email: "", projectType: "DevOps & CI/CD", message: "" });
       } else {
-        toast({
-          title: "Error Sending Message",
-          description: data.message || "There was a problem sending your message. Please try again later.",
-          variant: "destructive",
-        });
+        toast({ title: "Error", description: data.message || "Please try again.", variant: "destructive" });
       }
-    } catch (error) {
-      console.error("Error submitting contact form:", error);
-      toast({
-        title: "Submission Error",
-        description: "Could not connect to the server. Please check your connection and try again.",
-        variant: "destructive",
-      });
+    } catch {
+      toast({ title: "Connection Error", description: "Could not reach server.", variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const socials = [
+    { icon: Linkedin, href: "https://www.linkedin.com/in/tharusha69/", label: "LinkedIn", color: "#00f2ff" },
+    { icon: Github,   href: "https://github.com/Ntharusha",           label: "GitHub",   color: "#00f2ff" },
+    { icon: Mail,     href: "mailto:ntb069@gmail.com",                label: "Email",    color: "#00f2ff" },
+    { icon: Phone,    href: "tel:+94763629126",                       label: "Phone",    color: "#00f2ff" },
+  ];
+
   return (
-    <section id="contact" className="py-20 bg-card">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Get In <span className="gradient-text">Touch</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Ready to start your next project? Let's discuss how I can help bring your ideas to life
-          </p>
+    <section id="contact" ref={sectionRef} className="py-24 px-6 md:px-20 max-w-[1200px] mx-auto relative overflow-hidden">
+      <SectionScanner inView={inView} />
+      {/* Header */}
+      <div className="mb-14">
+        <h2 className="font-mono text-2xl text-primary mb-4 tracking-wider uppercase font-bold">
+          CONTACT_
+        </h2>
+        <div className="w-16 h-1 bg-[#00f2ff]"></div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        {/* Left: "Let's Build" heading + contact info */}
+        <div className="space-y-10">
+          <div>
+            <h2 className="font-mono text-3xl sm:text-4xl lg:text-5xl leading-[1.15] text-[#dce4e5] tracking-wider uppercase font-bold">
+              LET'S BUILD<br />
+              <span className="text-[#00f2ff]">SOMETHING</span><br />
+              GREAT
+            </h2>
+          </div>
+
+          <div className="space-y-4 font-mono text-xs">
+            <div className="flex items-center gap-3 text-[#b9cacb]">
+              <Mail size={16} className="text-[#00f2ff] flex-shrink-0" />
+              <a href="mailto:ntb069@gmail.com" className="hover:underline text-[#00f2ff]">
+                ntb069@gmail.com
+              </a>
+            </div>
+            <div className="flex items-center gap-3 text-[#b9cacb]">
+              <Phone size={16} className="text-[#00f2ff] flex-shrink-0" />
+              <a href="tel:+94763629126" className="hover:underline">
+                +94 763 629 126
+              </a>
+            </div>
+            <div className="flex items-center gap-3 text-[#b9cacb]">
+              <MapPin size={16} className="text-[#00f2ff] flex-shrink-0" />
+              <span>Vavuniya, Sri Lanka · Available Remote</span>
+            </div>
+          </div>
+
+          {/* Social icons */}
+          <div className="flex gap-4">
+            {socials.map((s) => {
+              const Icon = s.icon;
+              return (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="w-12 h-12 rounded bg-[#00f2ff]/5 border border-[#00f2ff]/10 flex items-center justify-center text-[#b9cacb] hover:text-[#00f2ff] hover:border-[#00f2ff]/30 transition-all duration-300"
+                >
+                  <Icon size={20} />
+                </a>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
-          <div className="space-y-8">
+        {/* Right: Form */}
+        <div className="glass-card p-8 rounded-xl border border-[#3a494b]/10 hover:-translate-y-1 hover:border-[#00f2ff]/30 hover:shadow-[0_5px_15px_-5px_rgba(0,242,255,0.15)] transition-all duration-300">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Name + Email row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input
+                name="name"
+                type="text"
+                required
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Name"
+                className="w-full bg-[#00f2ff]/5 border border-[#3a494b]/20 rounded px-4 py-3 font-mono text-xs text-[#dce4e5] focus:outline-none focus:border-[#00f2ff] placeholder-[#b9cacb]/30"
+              />
+              <input
+                name="email"
+                type="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="w-full bg-[#00f2ff]/5 border border-[#3a494b]/20 rounded px-4 py-3 font-mono text-xs text-[#dce4e5] focus:outline-none focus:border-[#00f2ff] placeholder-[#b9cacb]/30"
+              />
+            </div>
+
+            {/* Project Type dropdown */}
             <div>
-              <h3 className="text-2xl font-semibold mb-6">Let's Connect</h3>
-            <p className="text-muted-foreground leading-relaxed mb-8">
-              I'd love to hear about your project and see how we can work together! Whether you need 
-              DevOps expertise, system automation, or cloud infrastructure setup, I'm here to help bring 
-              your technical vision to life. Reach out through any channel below - I'm quick to respond and 
-              excited to chat about your requirements.
-            </p>
-            </div>
-
-            {/* Contact Methods */}
-            <div className="space-y-4">
-              {[
-                {
-                  icon: Mail,
-                  label: "Email",
-                  value: "ntb069@gmail.com",
-                  action: "mailto:ntb069@gmail.com"
-                },
-                {
-                  icon: Phone,
-                  label: "Phone",
-                  value: "+94 763629126",
-                  action: "tel:+94763629126"
-                },
-                {
-                  icon: Linkedin,
-                  label: "LinkedIn",
-                  value: "Tharusha Bhashitha",
-                  action: "https://www.linkedin.com/in/tharusha69/"
-                },
-                {
-                  icon: (props: any) => (
-                    <svg viewBox="0 0 24 24" {...props} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                    </svg>
-                  ),
-                  label: "GitHub",
-                  value: "Ntharusha",
-                  action: "https://github.com/Ntharusha"
-                }
-              ].map((contact, index) => {
-
-                const Icon = contact.icon;
-                
-                return (
-                  <div 
-                    key={contact.label}
-                    className="flex items-center space-x-4 p-4 bg-background rounded-lg border border-border hover:border-primary smooth-transition cursor-pointer group"
-                    onClick={() => window.open(contact.action, '_blank')}
-                  >
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 smooth-transition">
-                        <Icon className="h-5 w-5 text-primary" />
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-medium">{contact.label}</div>
-                      <div className="text-muted-foreground text-sm">{contact.value}</div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Location */}
-            <div className="p-6 bg-background rounded-lg border border-border">
-              <div className="flex items-center space-x-3 mb-3">
-                <MapPin className="h-5 w-5 text-primary" />
-                <h4 className="font-semibold">Location</h4>
-              </div>
-              <p className="text-muted-foreground">
-                Vavuniya, Northern Province, Sri Lanka
-              </p>
-              <p className="text-sm text-muted-foreground mt-2">
-                Available for remote work and local consultations
-              </p>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="bg-background rounded-xl p-8 border border-border">
-            <h3 className="text-2xl font-semibold mb-6">Send a Message</h3>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">
-                    Name *
-                  </label>
-                  <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Your full name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2">
-                    Email *
-                  </label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium mb-2">
-                  Subject *
-                </label>
-                <Input
-                  id="subject"
-                  name="subject"
-                  type="text"
-                  required
-                  value={formData.subject}
-                  onChange={handleInputChange}
-                  placeholder="What's this about?"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Message *
-                </label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows={6}
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  placeholder="Tell me about your project or how I can help you..."
-                />
-              </div>
-
-              <Button 
-                type="submit" 
-                variant="hero" 
-                size="lg" 
-                className="w-full"
-                disabled={isSubmitting}
+              <label className="font-mono text-[10px] text-[#b9cacb]/60 block mb-2 uppercase tracking-wider">Project Type</label>
+              <select
+                name="projectType"
+                value={formData.projectType}
+                onChange={handleChange}
+                className="w-full bg-[#00f2ff]/5 border border-[#3a494b]/20 rounded px-4 py-3 font-mono text-xs text-[#dce4e5] focus:outline-none focus:border-[#00f2ff]"
               >
-                {isSubmitting ? (
-                  "Sending..."
-                ) : (
-                  <>
-                    Send Message
-                    <Send className="ml-2 h-4 w-4" />
-                  </>
-                )}
-              </Button>
-            </form>
+                {projectTypes.map((t) => (
+                  <option key={t} value={t} className="bg-[#0d1515] text-[#dce4e5]">
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-            <p className="text-xs text-muted-foreground mt-4 text-center">
-              * Required fields. I typically respond within 24 hours.
-            </p>
-          </div>
+            {/* Message */}
+            <textarea
+              name="message"
+              required
+              rows={5}
+              value={formData.message}
+              onChange={handleChange}
+              placeholder="Message"
+              className="w-full bg-[#00f2ff]/5 border border-[#3a494b]/20 rounded px-4 py-3 font-mono text-xs text-[#dce4e5] focus:outline-none focus:border-[#00f2ff] placeholder-[#b9cacb]/30 resize-none"
+            />
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="liquid-glow-btn bg-[#00f2ff] text-[#00363a] font-mono text-xs font-semibold px-6 py-3 rounded-lg w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_10px_rgba(0,242,255,0.2)]"
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-[#00363a] border-t-transparent rounded-full animate-spin" />
+                  SENDING...
+                </>
+              ) : (
+                <>
+                  SEND_MESSAGE
+                  <Send size={14} />
+                </>
+              )}
+            </button>
+          </form>
         </div>
       </div>
     </section>

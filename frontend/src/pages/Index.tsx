@@ -7,11 +7,13 @@ import PortfolioSection from "@/components/PortfolioSection";
 import ContactSection from "@/components/ContactSection";
 import InteractiveTerminal from "@/components/InteractiveTerminal";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import PageTransition from "@/components/PageTransition";
 import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background relative selection:bg-primary/30">
+    <div className="min-h-screen bg-transparent relative selection:bg-primary/30">
+      <PageTransition />
       <AnimatedBackground />
       <Navigation />
       <HeroSection />
