@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # MongoDB Database Service
+  mongodb:
+    image: mongo:6.0-jammy
+    container_name: portfolio-db
+    restart: always
+    ports:
+      - "127.0.0.1:27017:27017" # Binds to localhost for security
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - portfolio-network
+
+  # Express Backend API Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: portfolio-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongodb:27017/portfolio
+      - EMAIL_USER=${EMAIL_USER:-your-email@gmail.com}
+      - EMAIL_PASS=${EMAIL_PASS:-your-app-password}
+      - RECEIVER_EMAIL=${RECEIVER_EMAIL:-ntb069@gmail.com}
+    depends_on:
+      - mongodb
+    networks:
+      - portfolio-network
+
+  # Vite Frontend Web Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # For client-side requests, the browser must reach the backend endpoint.
+        # Change localhost to your VPS IP or Domain name in production.
+        - VITE_API_URL=${VITE_API_URL:-http://localhost:5000/api}
+    container_name: portfolio-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - portfolio-network
+
+networks:
+  portfolio-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local

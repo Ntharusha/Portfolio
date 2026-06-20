@@ -40,9 +40,9 @@ const HeroSection = () => {
             }`}
             style={{ transitionDelay: "100ms" }}
           >
-            <h1 className="font-mono text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-primary mb-6 leading-[1.1] uppercase font-bold tracking-tight">
+            <h1 className="font-mono text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-[#dce4e5] mb-6 leading-[1.1] uppercase font-bold tracking-tight">
               Architecting <br />
-              <span className="text-[#00f2ff] drop-shadow-[0_0_15px_rgba(0,242,255,0.3)]">
+              <span className="text-[#00f2ff] drop-shadow-[0_0_15px_#00f2ff]">
                 Scalable Futures
               </span>{" "}
               <br />
@@ -71,7 +71,7 @@ const HeroSection = () => {
           >
             <button
               onClick={() => scrollTo("portfolio")}
-              className="liquid-glow-btn bg-[#00f2ff] text-[#00363a] font-mono text-sm font-semibold px-8 py-3.5 rounded-lg flex items-center gap-2 shadow-[0_0_15px_rgba(0,242,255,0.2)]"
+              className="liquid-glow-btn bg-[#00f2ff]/10 text-[#00f2ff] border border-[#00f2ff]/30 font-mono text-sm font-semibold px-8 py-3.5 rounded flex items-center gap-2 hover:bg-[#00f2ff]/20 transition-all duration-300 shadow-[0_0_15px_rgba(0,242,255,0.15)]"
             >
               VIEW_PROJECTS
               <ArrowRight size={16} />
@@ -79,7 +79,7 @@ const HeroSection = () => {
             <a
               href="/resume.pdf"
               download
-              className="glass-card px-8 py-3.5 rounded-lg font-mono text-sm text-[#00f2ff] flex items-center gap-2 border border-[#00f2ff]/20 hover:border-[#00f2ff]/50 transition-all duration-300"
+              className="glass-card px-8 py-3.5 rounded font-mono text-sm text-[#00f2ff] flex items-center gap-2 border border-[#00f2ff]/20 hover:border-[#00f2ff]/50 transition-all duration-300"
             >
               DOWNLOAD_CV
               <Download size={16} />
@@ -117,7 +117,7 @@ const HeroSection = () => {
           }`}
           style={{ transitionDelay: "400ms" }}
         >
-          <div className="relative group w-[260px] sm:w-[300px] lg:w-[320px] aspect-[4/5] p-2 rounded-2xl bg-[#0d1515]/60 border border-[#00f2ff]/20 backdrop-blur-md shadow-[0_0_30px_rgba(0,242,255,0.08)] transition-all duration-500 hover:border-[#00f2ff]/50 hover:shadow-[0_0_40px_rgba(0,242,255,0.2)]">
+          <div className="relative group w-[260px] sm:w-[300px] lg:w-[320px] aspect-[4/5] p-2 rounded-2xl bg-[#0d1515]/60 border border-[#00f2ff]/20 backdrop-blur-md shadow-[0_0_30px_rgba(0,242,255,0.08)] transition-all duration-500 hover:border-[#00f2ff]/50 hover:shadow-[0_0_40px_rgba(0,242,255,0.25)]">
             {/* Glowing Backdrop Aura */}
             <div className="absolute -inset-1 bg-gradient-to-tr from-[#00f2ff]/30 to-transparent rounded-2xl blur-xl opacity-50 group-hover:opacity-80 transition duration-700 pointer-events-none" />
 
@@ -128,24 +128,25 @@ const HeroSection = () => {
             <div className="absolute bottom-0 right-0 w-5 h-5 border-b-2 border-r-2 border-[#00f2ff] rounded-br-lg" />
 
             {/* Scanning Vertical Line */}
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#00f2ff] to-transparent shadow-[0_0_10px_#00f2ff] opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-scanline-vertical pointer-events-none" />
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#00f2ff] to-transparent shadow-[0_0_10px_rgba(0,242,255,0.5)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-scanline-vertical pointer-events-none" />
 
             {/* Portrait Image Container */}
-            <div className="relative w-full h-full rounded-xl overflow-hidden border border-[#3a494b]/20 bg-[#0d1515]">
+            <div className="relative w-full h-full rounded-xl overflow-hidden border border-[#3a494b]/20 bg-[#070b0b]">
               <img
                 src={profileImage}
                 alt="Tharusha Bhashitha Portrait"
-                className="w-full h-full object-cover mix-blend-lighten transition-all duration-700 group-hover:scale-105"
+                decoding="async"
+                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
               />
               {/* Scanline pattern overlay */}
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.15)_50%)] bg-[size:100%_4px] pointer-events-none opacity-30" />
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[size:100%_4px] pointer-events-none opacity-30" />
             </div>
 
             {/* HUD Status Elements */}
-            <div className="font-mono text-[9px] text-[#00f2ff]/80 tracking-widest absolute bottom-4 left-4 bg-[#0d1515]/90 px-2.5 py-1 border border-[#00f2ff]/20 rounded backdrop-blur-sm select-none">
+            <div className="font-mono text-[9px] text-[#00f2ff]/80 tracking-widest absolute bottom-4 left-4 bg-[#070b0b]/90 px-2.5 py-1 border border-[#00f2ff]/20 rounded backdrop-blur-sm select-none">
               HOST_REF: TB_ARCH
             </div>
-            <div className="font-mono text-[9px] text-[#00f2ff]/80 tracking-widest absolute top-4 right-4 bg-[#0d1515]/90 px-2.5 py-1 border border-[#00f2ff]/20 rounded backdrop-blur-sm select-none">
+            <div className="font-mono text-[9px] text-[#00f2ff]/80 tracking-widest absolute top-4 right-4 bg-[#070b0b]/90 px-2.5 py-1 border border-[#00f2ff]/20 rounded backdrop-blur-sm select-none">
               SYS_SEC: READY
             </div>
           </div>

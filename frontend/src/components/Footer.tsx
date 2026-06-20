@@ -27,10 +27,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
           <div className="space-y-4">
-            <div className="font-mono font-bold text-xl text-primary">
+            <div className="font-mono font-bold text-xl text-[#00f2ff]">
               DEVOPS_ARCHITECT
             </div>
-            <p className="font-sans text-xs text-[#b9cacb]/70 leading-relaxed max-w-xs">
+            <p className="font-sans text-xs text-[#b9cacb]/60 leading-relaxed max-w-xs">
               DevOps Engineer & Systems Specialist passionate about reliable infrastructure
               and automated workflows.
             </p>
@@ -44,7 +44,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label}
-                    className="w-9 h-9 rounded bg-[#00f2ff]/5 border border-[#00f2ff]/10 flex items-center justify-center text-[#b9cacb] hover:text-[#00f2ff] hover:border-[#00f2ff]/30 transition-all duration-300"
+                    className="w-9 h-9 rounded bg-[#00f2ff]/5 border border-[#00f2ff]/20 flex items-center justify-center text-[#b9cacb]/60 hover:text-[#00f2ff] hover:border-[#00f2ff]/40 transition-all duration-300"
                   >
                     <Icon size={16} />
                   </a>
@@ -61,7 +61,7 @@ const Footer = () => {
                 <button
                   key={l.id}
                   onClick={() => scrollTo(l.id)}
-                  className="block font-mono text-xs text-[#b9cacb]/70 hover:text-[#00f2ff] transition-colors text-left"
+                  className="block font-mono text-xs text-[#b9cacb]/60 hover:text-[#00f2ff] transition-colors text-left"
                 >
                   {l.label}
                 </button>
@@ -72,7 +72,7 @@ const Footer = () => {
           {/* Services */}
           <div>
             <h4 className="font-mono text-xs font-semibold text-[#dce4e5] uppercase mb-4 tracking-wider">Services</h4>
-            <div className="space-y-2 font-mono text-xs text-[#b9cacb]/60">
+            <div className="space-y-2 font-mono text-xs text-[#b9cacb]/50">
               <div>// DEVOPS_SYSADMIN</div>
               <div>// AUTOMATION_SCRIPTING</div>
               <div>// CLOUD_INFRASTRUCTURE</div>
@@ -90,7 +90,7 @@ const Footer = () => {
           </p>
           <div className="flex items-center gap-2">
             <span className="status-pulse" />
-            <span className="font-mono text-[10px] text-[#b9cacb]/60 uppercase tracking-wider">SYSTEMS_ACTIVE // HIRE_READY</span>
+            <span className="font-mono text-[10px] text-[#b9cacb]/50 uppercase tracking-wider">SYSTEMS_ACTIVE // HIRE_READY</span>
           </div>
         </div>
       </div>

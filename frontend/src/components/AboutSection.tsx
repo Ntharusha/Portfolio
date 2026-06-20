@@ -68,7 +68,7 @@ const AboutSection = () => {
         <div className={`lg:col-span-8 space-y-8 transition-all duration-700 delay-150 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
           {/* Education */}
           <div>
-            <h3 className="font-mono text-lg text-primary mb-4 uppercase tracking-wider font-semibold flex items-center gap-2">
+            <h3 className="font-mono text-lg text-[#dce4e5] mb-4 uppercase tracking-wider font-semibold flex items-center gap-2">
               <GraduationCap size={20} className="text-[#00f2ff]" />
               EDUCATION
             </h3>
@@ -92,7 +92,7 @@ const AboutSection = () => {
 
           {/* Certifications */}
           <div>
-            <h3 className="font-mono text-lg text-primary mb-4 uppercase tracking-wider font-semibold flex items-center gap-2">
+            <h3 className="font-mono text-lg text-[#dce4e5] mb-4 uppercase tracking-wider font-semibold flex items-center gap-2">
               <CheckCircle2 size={18} className="text-[#00f2ff]" />
               CERTIFICATIONS
             </h3>

@@ -74,7 +74,7 @@ const ServicesSection = () => {
       <SectionScanner inView={inView} />
       {/* Header */}
       <div className="mb-14">
-        <h2 className="font-mono text-2xl text-primary mb-4 tracking-wider uppercase font-bold">
+        <h2 className="font-mono text-2xl text-[#dce4e5] mb-4 tracking-wider uppercase font-bold">
           SERVICES_
         </h2>
         <div className="w-16 h-1 bg-[#00f2ff] mb-8"></div>
@@ -90,7 +90,7 @@ const ServicesSection = () => {
           return (
             <div
               key={svc.title}
-              className={`glass-card p-6 rounded-xl border border-[#3a494b]/10 group flex flex-col transition-all duration-500 hover:-translate-y-2 hover:border-[#00f2ff]/40 hover:shadow-[0_10px_30px_-5px_rgba(0,242,255,0.2)] ${
+              className={`glass-card p-6 rounded-xl border border-[#3a494b]/10 group flex flex-col transition-all duration-500 hover:-translate-y-2 hover:border-[#00f2ff]/30 hover:shadow-[0_10px_30px_-5px_rgba(0,242,255,0.15)] ${
                 inView ? "opacity-100 translate-y-0 animate-fade-up" : "opacity-0 translate-y-8"
               }`}
               style={{ animationDelay: `${i * 80}ms` }}
@@ -150,7 +150,7 @@ const ServicesSection = () => {
 
       {/* Partnership CTA */}
       <div className="mt-16">
-        <div className="glass-card p-8 rounded-xl border border-[#00f2ff]/10 text-center max-w-3xl mx-auto">
+        <div className="glass-card p-8 rounded-xl border border-[#00f2ff]/15 text-center max-w-3xl mx-auto">
           <p className="font-mono text-xs text-[#00f2ff]/75 mb-3 uppercase tracking-widest">// PARTNERSHIP</p>
           <h4 className="font-mono text-base font-semibold text-[#dce4e5] mb-4 uppercase tracking-wider">
             A Technical Partnership
@@ -161,7 +161,7 @@ const ServicesSection = () => {
           </p>
           <button
             onClick={scrollToContact}
-            className="liquid-glow-btn bg-[#00f2ff] text-[#00363a] font-mono text-xs font-semibold px-6 py-3 rounded-lg flex items-center gap-2 mx-auto shadow-[0_0_10px_rgba(0,242,255,0.2)]"
+            className="liquid-glow-btn bg-[#00f2ff]/10 text-[#00f2ff] border border-[#00f2ff]/30 px-6 py-3 font-mono text-xs font-semibold rounded hover:bg-[#00f2ff]/20 transition-all duration-300 mx-auto shadow-[0_0_10px_rgba(0,242,255,0.15)]"
           >
             DISCUSS_PROJECT
             <ArrowRight size={14} />

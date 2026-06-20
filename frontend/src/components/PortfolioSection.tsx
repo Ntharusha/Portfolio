@@ -158,7 +158,7 @@ const PortfolioSection = () => {
       {/* Header row */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
         <div>
-          <h2 className="font-mono text-2xl text-primary mb-4 tracking-wider uppercase font-bold">
+          <h2 className="font-mono text-2xl text-[#dce4e5] mb-4 tracking-wider uppercase font-bold">
             LOGS_
           </h2>
           <div className="w-16 h-1 bg-[#00f2ff]"></div>
@@ -172,8 +172,8 @@ const PortfolioSection = () => {
               onClick={() => setFilter(f)}
               className={`px-4 py-1.5 rounded font-mono text-xs transition-all border ${
                 filter === f
-                  ? "bg-[#00f2ff] text-[#00363a] border-[#00f2ff] font-semibold"
-                  : "bg-transparent text-[#b9cacb] border-[#3a494b]/20 hover:border-[#00f2ff]/50 hover:text-[#dce4e5]"
+                  ? "bg-[#00f2ff]/10 text-[#00f2ff] border-[#00f2ff]/30 font-semibold"
+                  : "bg-transparent text-[#b9cacb]/60 border-[#3a494b]/20 hover:border-[#00f2ff]/50 hover:text-[#dce4e5]"
               }`}
             >
               {f.toUpperCase()}
@@ -185,7 +185,7 @@ const PortfolioSection = () => {
       {/* Grid */}
       {isLoading ? (
         <div className="flex justify-center py-20">
-          <div className="w-10 h-10 rounded-full border-2 border-[#3a494b]/20 border-t-[#00f2ff] animate-spin" />
+          <div className="w-10 h-10 rounded-full border-2 border-white/10 border-t-[#00f2ff] animate-spin" />
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -193,7 +193,7 @@ const PortfolioSection = () => {
             return (
               <div
                 key={item.id ?? i}
-                className={`glass-card rounded-xl border border-[#3a494b]/10 overflow-hidden flex flex-col group cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:border-[#00f2ff]/40 hover:shadow-[0_10px_30px_-5px_rgba(0,242,255,0.2)] ${
+                className={`glass-card rounded-xl border border-[#3a494b]/10 overflow-hidden flex flex-col group cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:border-[#00f2ff]/30 hover:shadow-[0_10px_30px_-5px_rgba(0,242,255,0.15)] ${
                   inView ? "opacity-100 translate-y-0 animate-fade-up" : "opacity-0 translate-y-8"
                 }`}
                 style={{ animationDelay: `${i * 80}ms` }}
@@ -205,10 +205,12 @@ const PortfolioSection = () => {
                     <img
                       src={item.imageUrl}
                       alt={item.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
-                    <div className="w-[85%] font-mono text-[10px] text-[#00f2ff]/80 bg-[#070b0b] p-4 rounded border border-[#00f2ff]/10">
+                    <div className="w-[85%] font-mono text-[10px] text-[#00f2ff]/80 bg-[#070b0b]/90 p-4 rounded border border-[#00f2ff]/10">
                       <div className="flex items-center gap-1.5 mb-2 border-b border-[#00f2ff]/10 pb-1.5 opacity-60">
                         <div className="w-2.5 h-2.5 rounded-full bg-red-500/30" />
                         <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/30" />
@@ -224,7 +226,7 @@ const PortfolioSection = () => {
                   )}
 
                   {/* Hover overlay with detail */}
-                  <div className="absolute inset-0 bg-[#0d1515]/95 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
+                  <div className="absolute inset-0 bg-[#070b0b]/95 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
                     <p className="font-sans text-xs text-[#b9cacb] leading-relaxed">
                       {item.description}
                     </p>
@@ -238,7 +240,7 @@ const PortfolioSection = () => {
                 </div>
 
                 {/* Info Area */}
-                <div className="p-6 flex-1 flex flex-col justify-between bg-white/[0.01]">
+                <div className="p-6 flex-1 flex flex-col justify-between bg-[#0d1515]/20">
                   <div>
                     <h3 className="font-mono text-sm font-semibold text-[#dce4e5] mb-2 uppercase tracking-wide">
                       {item.title}
@@ -265,8 +267,8 @@ const PortfolioSection = () => {
 
       {/* Collaboration footer block */}
       <div className="mt-16 text-center">
-        <div className="glass-card p-8 rounded-xl border border-[#00f2ff]/10 max-w-2xl mx-auto">
-          <p className="font-mono text-xs text-[#00f2ff]/70 mb-3 uppercase tracking-widest">// COLLABORATE</p>
+        <div className="glass-card p-8 rounded-xl border border-[#00f2ff]/15 max-w-2xl mx-auto">
+          <p className="font-mono text-xs text-[#00f2ff]/80 mb-3 uppercase tracking-widest">// COLLABORATE</p>
           <h4 className="font-mono text-base font-semibold text-[#dce4e5] mb-3 uppercase tracking-wider">
             Interested in Working Together?
           </h4>
@@ -276,7 +278,7 @@ const PortfolioSection = () => {
           </p>
           <button
             onClick={scrollToContact}
-            className="liquid-glow-btn bg-[#00f2ff] text-[#00363a] font-mono text-xs font-semibold px-6 py-3 rounded-lg flex items-center gap-2 mx-auto shadow-[0_0_10px_rgba(0,242,255,0.2)]"
+            className="liquid-glow-btn bg-[#00f2ff]/10 text-[#00f2ff] border border-[#00f2ff]/30 px-6 py-3 font-mono text-xs font-semibold rounded hover:bg-[#00f2ff]/20 transition-all duration-300 mx-auto shadow-[0_0_10px_rgba(0,242,255,0.15)]"
           >
             START_CONVERSATION
             <ArrowRight size={14} />
@@ -300,7 +302,7 @@ const PortfolioSection = () => {
                 <span className="font-mono text-[9px] px-2 py-0.5 rounded bg-[#00f2ff]/10 text-[#00f2ff] border border-[#00f2ff]/20 uppercase tracking-widest">
                   {activeProject.filterTag}
                 </span>
-                <h3 className="font-mono text-lg font-bold text-white uppercase mt-2 tracking-wide">
+                <h3 className="font-mono text-lg font-bold text-[#dce4e5] uppercase mt-2 tracking-wide">
                   {activeProject.title}
                 </h3>
               </div>
@@ -374,7 +376,7 @@ const PortfolioSection = () => {
                   href={activeProject.projectUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="liquid-glow-btn bg-[#00f2ff] text-[#00363a] font-mono text-xs font-semibold px-6 py-2.5 rounded-lg flex items-center gap-2 shadow-[0_0_10px_rgba(0,242,255,0.2)] hover:shadow-[0_0_20px_rgba(0,242,255,0.4)] transition-all duration-300 w-full sm:w-auto justify-center"
+                  className="liquid-glow-btn bg-[#00f2ff]/10 text-[#00f2ff] border border-[#00f2ff]/30 px-6 py-2.5 font-mono text-xs font-semibold rounded hover:bg-[#00f2ff]/20 transition-all duration-300 w-full sm:w-auto justify-center shadow-[0_0_15px_rgba(0,242,255,0.15)]"
                 >
                   VISIT_REPOSITORY_
                   <ExternalLink size={14} />

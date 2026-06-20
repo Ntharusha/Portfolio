@@ -56,9 +56,9 @@ void main() {
     
     float time = u_time * 0.2;
     
-    // Deep Space Background
-    vec3 colorBg = vec3(0.05, 0.08, 0.08); // Dark teal-tinted black
-    vec3 colorPrimary = vec3(0.0, 0.95, 1.0); // Neon Cyan
+    // Dark cyberpunk color scheme
+    vec3 colorBg = vec3(0.05, 0.08, 0.08);
+    vec3 colorPrimary = vec3(0.0, 0.95, 1.0);
     
     // Dynamic Grid System
     vec2 gridUv = centeredUv * 15.0;
@@ -68,13 +68,19 @@ void main() {
     float gridLine = smoothstep(0.48, 0.5, max(abs(gridF.x), abs(gridF.y)));
     float gridPulse = sin(time + hash(gridId) * 6.28) * 0.5 + 0.5;
     
+    // Slanted/Diagonal coordinates for conduits (30-degree tilt)
+    float angle = 0.523; // ~30 degrees
+    float c = cos(angle);
+    float s = sin(angle);
+    vec2 rotUv = vec2(centeredUv.x * c - centeredUv.y * s, centeredUv.x * s + centeredUv.y * c);
+    
     // Energy Conduits (Moving waves)
     float conduits = 0.0;
     for(float i = 1.0; i < 5.0; i++) {
         float speed = i * 0.3;
         float freq = i * 2.0;
         float amp = 0.05 / i;
-        conduits += amp / abs(sin(centeredUv.x * freq + time * speed + m.x) * 0.5 - centeredUv.y);
+        conduits += amp / abs(sin(rotUv.x * freq + time * speed + m.x) * 0.5 - rotUv.y);
     }
     
     // Data "Pulses" (Flickering bits)
@@ -139,22 +145,40 @@ void main() {
     const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 
     const handleMouseMove = (event: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      if (rect.width && rect.height) {
-        const nx = (event.clientX - rect.left) / rect.width;
-        const ny = 1.0 - (event.clientY - rect.top) / rect.height;
-        mouse.x = nx * canvas.width;
-        mouse.y = ny * canvas.height;
-      }
+      const nx = event.clientX / window.innerWidth;
+      const ny = 1.0 - event.clientY / window.innerHeight;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    let targetScroll = window.scrollY;
+    let currentScroll = window.scrollY;
+
+    const handleScroll = () => {
+      targetScroll = window.scrollY;
+    };
+
+    const handleResize = () => {
+      syncSize();
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    if (!resizeObserver) {
+      window.addEventListener("resize", handleResize, { passive: true });
+    }
 
     let animationFrameId: number;
-    const render = (t: number) => {
-      syncSize();
+    const render = () => {
       gl.viewport(0, 0, canvas.width, canvas.height);
-      if (uTime) gl.uniform1f(uTime, t * 0.001);
+
+      // Smooth scroll interpolation (easing)
+      currentScroll += (targetScroll - currentScroll) * 0.08;
+
+      // Sync animation progress with scroll position
+      const scrollTime = currentScroll * 0.008;
+
+      if (uTime) gl.uniform1f(uTime, scrollTime);
       if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
       if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -164,9 +188,12 @@ void main() {
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("scroll", handleScroll);
       cancelAnimationFrame(animationFrameId);
       if (resizeObserver) {
         resizeObserver.disconnect();
+      } else {
+        window.removeEventListener("resize", handleResize);
       }
     };
   }, []);

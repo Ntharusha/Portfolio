@@ -18,7 +18,10 @@ export const SectionScanner = ({ inView }: SectionScannerProps) => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-20">
       {/* Sweeping scanline */}
-      <div className="absolute left-0 right-0 h-[2px] bg-[#00f2ff] shadow-[0_0_15px_#00f2ff,0_0_30px_rgba(0,242,255,0.4)] animate-section-scan" />
+      <div className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00f2ff] to-transparent shadow-[0_0_15px_rgba(0,242,255,1),0_0_30px_rgba(0,242,255,0.6)] animate-section-scan" />
+      
+      {/* Sweeping scan glow beam */}
+      <div className="absolute left-0 right-0 h-[150px] bg-gradient-to-b from-[#00f2ff]/0 via-[#00f2ff]/10 to-[#00f2ff]/0 animate-section-scan-beam" />
     </div>
   );
 };

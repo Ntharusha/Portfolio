@@ -55,7 +55,7 @@ const ContactSection = () => {
       <SectionScanner inView={inView} />
       {/* Header */}
       <div className="mb-14">
-        <h2 className="font-mono text-2xl text-primary mb-4 tracking-wider uppercase font-bold">
+        <h2 className="font-mono text-2xl text-[#dce4e5] mb-4 tracking-wider uppercase font-bold">
           CONTACT_
         </h2>
         <div className="w-16 h-1 bg-[#00f2ff]"></div>
@@ -73,19 +73,19 @@ const ContactSection = () => {
           </div>
 
           <div className="space-y-4 font-mono text-xs">
-            <div className="flex items-center gap-3 text-[#b9cacb]">
+            <div className="flex items-center gap-3 text-[#b9cacb]/80">
               <Mail size={16} className="text-[#00f2ff] flex-shrink-0" />
               <a href="mailto:ntb069@gmail.com" className="hover:underline text-[#00f2ff]">
                 ntb069@gmail.com
               </a>
             </div>
-            <div className="flex items-center gap-3 text-[#b9cacb]">
+            <div className="flex items-center gap-3 text-[#b9cacb]/80">
               <Phone size={16} className="text-[#00f2ff] flex-shrink-0" />
-              <a href="tel:+94763629126" className="hover:underline">
+              <a href="tel:+94763629126" className="hover:underline text-[#00f2ff]">
                 +94 763 629 126
               </a>
             </div>
-            <div className="flex items-center gap-3 text-[#b9cacb]">
+            <div className="flex items-center gap-3 text-[#b9cacb]/80">
               <MapPin size={16} className="text-[#00f2ff] flex-shrink-0" />
               <span>Vavuniya, Sri Lanka · Available Remote</span>
             </div>
@@ -102,7 +102,7 @@ const ContactSection = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="w-12 h-12 rounded bg-[#00f2ff]/5 border border-[#00f2ff]/10 flex items-center justify-center text-[#b9cacb] hover:text-[#00f2ff] hover:border-[#00f2ff]/30 transition-all duration-300"
+                  className="w-12 h-12 rounded bg-[#00f2ff]/5 border border-[#00f2ff]/20 flex items-center justify-center text-[#b9cacb]/80 hover:text-[#00f2ff] hover:border-[#00f2ff]/40 transition-all duration-300"
                 >
                   <Icon size={20} />
                 </a>
@@ -123,7 +123,7 @@ const ContactSection = () => {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Name"
-                className="w-full bg-[#00f2ff]/5 border border-[#3a494b]/20 rounded px-4 py-3 font-mono text-xs text-[#dce4e5] focus:outline-none focus:border-[#00f2ff] placeholder-[#b9cacb]/30"
+                className="w-full bg-[#0d1515] border border-[#3a494b]/20 rounded px-4 py-3 font-mono text-xs text-foreground focus:outline-none focus:border-[#00f2ff] placeholder-foreground-muted/30"
               />
               <input
                 name="email"
@@ -132,7 +132,7 @@ const ContactSection = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Email"
-                className="w-full bg-[#00f2ff]/5 border border-[#3a494b]/20 rounded px-4 py-3 font-mono text-xs text-[#dce4e5] focus:outline-none focus:border-[#00f2ff] placeholder-[#b9cacb]/30"
+                className="w-full bg-[#0d1515] border border-[#3a494b]/20 rounded px-4 py-3 font-mono text-xs text-foreground focus:outline-none focus:border-[#00f2ff] placeholder-foreground-muted/30"
               />
             </div>
 
@@ -143,7 +143,7 @@ const ContactSection = () => {
                 name="projectType"
                 value={formData.projectType}
                 onChange={handleChange}
-                className="w-full bg-[#00f2ff]/5 border border-[#3a494b]/20 rounded px-4 py-3 font-mono text-xs text-[#dce4e5] focus:outline-none focus:border-[#00f2ff]"
+                className="w-full bg-[#0d1515] border border-[#3a494b]/20 rounded px-4 py-3 font-mono text-xs text-foreground focus:outline-none focus:border-[#00f2ff]"
               >
                 {projectTypes.map((t) => (
                   <option key={t} value={t} className="bg-[#0d1515] text-[#dce4e5]">
@@ -161,18 +161,18 @@ const ContactSection = () => {
               value={formData.message}
               onChange={handleChange}
               placeholder="Message"
-              className="w-full bg-[#00f2ff]/5 border border-[#3a494b]/20 rounded px-4 py-3 font-mono text-xs text-[#dce4e5] focus:outline-none focus:border-[#00f2ff] placeholder-[#b9cacb]/30 resize-none"
+              className="w-full bg-[#0d1515] border border-[#3a494b]/20 rounded px-4 py-3 font-mono text-xs text-foreground focus:outline-none focus:border-[#00f2ff] placeholder-foreground-muted/30 resize-none"
             />
 
             {/* Submit */}
             <button
               type="submit"
               disabled={isSubmitting}
-              className="liquid-glow-btn bg-[#00f2ff] text-[#00363a] font-mono text-xs font-semibold px-6 py-3 rounded-lg w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_10px_rgba(0,242,255,0.2)]"
+              className="liquid-glow-btn bg-[#00f2ff]/10 text-[#00f2ff] border border-[#00f2ff]/30 py-3 rounded font-mono text-sm font-semibold mt-3 text-center disabled:opacity-50 hover:bg-[#00f2ff]/20 transition-all duration-300 w-full flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(0,242,255,0.15)]"
             >
               {isSubmitting ? (
                 <>
-                  <span className="w-4 h-4 border-2 border-[#00363a] border-t-transparent rounded-full animate-spin" />
+                  <span className="w-4 h-4 border-2 border-[#00f2ff] border-t-transparent rounded-full animate-spin" />
                   SENDING...
                 </>
               ) : (

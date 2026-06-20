@@ -40,7 +40,7 @@ export const PageTransition = () => {
       <div className="radar-pulse-ring-outer" />
 
       {/* Cybernetic telemetry display */}
-      <div className="absolute font-mono text-[9px] text-[#00f2ff] tracking-[0.4em] uppercase bg-[#070b0b]/90 px-3 py-1.5 border border-[#00f2ff]/20 rounded backdrop-blur-md shadow-[0_0_15px_rgba(0,242,255,0.15)]">
+      <div className="absolute font-mono text-[9px] text-primary tracking-[0.4em] uppercase bg-background/90 px-3 py-1.5 border border-primary/20 rounded backdrop-blur-md shadow-[0_0_15px_rgba(var(--primary)/0.15)]">
         SECTOR::{targetId}
       </div>
     </div>

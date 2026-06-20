@@ -40,7 +40,7 @@ const Navigation = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 border-b navbar-header ${
+      className={`fixed top-0 w-full z-50 border-b navbar-header transition-all duration-300 ${
         scrolled ? "navbar-scrolled" : "navbar-unscrolled"
       }`}
     >
@@ -51,7 +51,7 @@ const Navigation = () => {
       >
         <button
           onClick={() => scrollTo("home")}
-          className="font-mono text-xl text-primary font-bold tracking-tighter"
+          className="font-mono text-xl text-[#00f2ff] font-bold tracking-tighter"
         >
           DEVOPS_ARCHITECT
         </button>
@@ -65,7 +65,7 @@ const Navigation = () => {
               className={`nav-link-underline pb-1 transition-colors duration-300 ${
                 activeSection === item.id
                   ? "text-[#00f2ff] font-semibold"
-                  : "text-[#b9cacb] hover:text-[#00f2ff]"
+                  : "text-[#b9cacb]/70 hover:text-[#00f2ff]"
               }`}
             >
               {item.label}
@@ -81,7 +81,7 @@ const Navigation = () => {
           </div>
           <button
             onClick={() => scrollTo("contact")}
-            className="liquid-glow-btn bg-[#00f2ff] text-[#00363a] px-6 py-2 font-mono text-sm font-semibold rounded-lg shadow-[0_0_10px_rgba(0,242,255,0.2)]"
+            className="liquid-glow-btn bg-[#00f2ff]/10 text-[#00f2ff] border border-[#00f2ff]/30 px-6 py-2 font-mono text-sm font-semibold rounded hover:bg-[#00f2ff]/20 transition-all duration-300"
           >
             INIT_SESSION
           </button>
@@ -89,7 +89,7 @@ const Navigation = () => {
 
         {/* Mobile menu toggle */}
         <button
-          className="md:hidden text-[#b9cacb] hover:text-[#00f2ff] transition-colors p-1"
+          className="md:hidden text-[#b9cacb]/70 hover:text-[#00f2ff] transition-colors p-1"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
         >
@@ -99,13 +99,13 @@ const Navigation = () => {
 
       {/* Mobile Navigation Menu */}
       {isOpen && (
-        <div className="md:hidden bg-[#0d1515] border-t border-[#00f2ff]/10 py-4 px-6 flex flex-col gap-2">
+        <div className="md:hidden bg-[#0d1515] border-t border-[#3a494b]/20 py-4 px-6 flex flex-col gap-2">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => scrollTo(item.id)}
               className={`text-left py-3 font-mono text-sm tracking-wider transition-colors ${
-                activeSection === item.id ? "text-[#00f2ff]" : "text-[#b9cacb]"
+                activeSection === item.id ? "text-[#00f2ff]" : "text-[#b9cacb]/60"
               }`}
             >
               {item.label}
@@ -113,7 +113,7 @@ const Navigation = () => {
           ))}
           <button
             onClick={() => scrollTo("contact")}
-            className="liquid-glow-btn bg-[#00f2ff] text-[#00363a] py-3 rounded-lg font-mono text-sm font-semibold mt-3 text-center"
+            className="liquid-glow-btn bg-[#00f2ff]/10 text-[#00f2ff] border border-[#00f2ff]/30 py-3 rounded font-mono text-sm font-semibold mt-3 text-center"
           >
             INIT_SESSION
           </button>

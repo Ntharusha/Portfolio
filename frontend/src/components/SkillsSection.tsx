@@ -19,7 +19,7 @@ const SkillCard = ({ skill, index, animate }: { skill: typeof skills[0]; index: 
   const Icon = skill.icon;
   return (
     <div
-      className={`glass-card p-6 rounded-xl border border-[#3a494b]/10 group transition-all duration-500 hover:-translate-y-2 hover:border-[#00f2ff]/40 hover:shadow-[0_10px_30px_-5px_rgba(0,242,255,0.2)] ${
+      className={`glass-card p-6 rounded-xl border border-[#3a494b]/10 group transition-all duration-500 hover:-translate-y-2 hover:border-[#00f2ff]/30 hover:shadow-[0_10px_30px_-5px_rgba(0,242,255,0.15)] ${
         animate ? "opacity-100 translate-y-0 animate-fade-up" : "opacity-0 translate-y-8"
       }`}
       style={{ animationDelay: `${index * 60}ms` }}
@@ -45,7 +45,7 @@ const SkillCard = ({ skill, index, animate }: { skill: typeof skills[0]; index: 
         </div>
         <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-[#006a71] to-[#00f2ff] shadow-[0_0_10px_rgba(0,242,255,0.5)] transition-all duration-1000 ease-out"
+            className="h-full bg-gradient-to-r from-[#00f2ff]/60 to-[#00f2ff] shadow-[0_0_10px_rgba(0,242,255,0.5)] transition-all duration-1000 ease-out"
             style={{
               width: animate ? `${skill.level}%` : "0%",
             }}
@@ -65,7 +65,7 @@ const SkillsSection = () => {
       <SectionScanner inView={inView} />
       {/* Header */}
       <div className="mb-14">
-        <h2 className="font-mono text-2xl text-primary mb-4 tracking-wider uppercase font-bold">
+        <h2 className="font-mono text-2xl text-[#dce4e5] mb-4 tracking-wider uppercase font-bold">
           EXPERTISE_
         </h2>
         <div className="w-16 h-1 bg-[#00f2ff] mb-8"></div>
@@ -92,10 +92,10 @@ const SkillsSection = () => {
 
       {/* Summary */}
       <div className="mt-14">
-        <div className="glass-card p-8 rounded-xl border border-[#00f2ff]/10 text-center max-w-3xl mx-auto">
-          <p className="font-mono text-xs text-[#00f2ff]/75 mb-3 uppercase tracking-widest">// COMMITMENT TO QUALITY</p>
+        <div className="glass-card p-8 rounded-xl border border-[#00f2ff]/15 text-center max-w-3xl mx-auto">
+          <p className="font-mono text-xs text-[#00f2ff]/80 mb-3 uppercase tracking-widest">// COMMITMENT TO QUALITY</p>
           <p className="font-sans text-[#b9cacb] text-sm leading-relaxed">
-            With a deep focus on DevOps principles and systems engineering, I deliver robust, scalable,
+            With a focus on DevOps principles and systems engineering, I deliver robust, scalable,
             and automated solutions. My expertise spans Linux administration, cloud infrastructure,
             and CI/CD pipelines — ensuring high availability and efficiency for modern technical projects.
           </p>

@@ -338,36 +338,35 @@ const InteractiveTerminal = () => {
   };
 
   return (
-    <section id="terminal" className="section-padding surface-base relative overflow-hidden">
+    <section id="terminal" className="section-padding bg-[#0d1515] relative overflow-hidden">
       <div className="container-custom max-w-4xl">
         <div className="text-center mb-12">
-          <p className="section-label">// System Console</p>
-          <h2 className="font-sora font-bold text-3xl text-[#dce4e5] mt-2 mb-4">
-            Interactive <span className="gradient-text">Terminal</span>
+          <p className="font-mono text-xs text-[#00f2ff] uppercase tracking-widest">// System Console</p>
+          <h2 className="font-mono text-2xl text-[#dce4e5] mt-2 mb-4 uppercase font-bold">
+            Interactive <span className="text-[#00f2ff] drop-shadow-[0_0_10px_rgba(0,242,255,0.2)]">Terminal</span>
           </h2>
-          <p className="font-geist text-sm text-[#849495] max-w-md mx-auto">
+          <p className="font-sans text-sm text-[#b9cacb] max-w-md mx-auto">
             For the power users: learn DevOps concepts and run live pipeline simulations in the shell.
           </p>
         </div>
 
         <div
-          className={`card-obsidian p-0 overflow-hidden font-mono-dev text-sm smooth-transition flex flex-col ${
+          className={`bg-[#0d1515] border border-[#2D2D30] p-0 overflow-hidden font-mono-dev text-sm smooth-transition flex flex-col ${
             isMaximized ? "fixed inset-4 z-50 h-[calc(100vh-32px)]" : "h-[400px]"
           }`}
           style={{
-            borderColor: "rgba(0, 242, 255, 0.15)",
-            boxShadow: "0 0 40px rgba(0, 240, 255, 0.05)",
+            boxShadow: "0 0 40px rgba(0, 242, 255, 0.05)",
           }}
           onClick={() => inputRef.current?.focus()}
         >
           {/* Terminal Header */}
-          <div className="bg-[#151d1e] px-4 py-2.5 flex items-center justify-between border-b border-[#2D2D30]">
+          <div className="bg-[#151d1e] px-4 py-2.5 flex items-center justify-between" style={{ borderBottom: "1px solid #2D2D30" }}>
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
               <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
               <div className="w-3 h-3 rounded-full bg-[#4AF626]" />
               <div className="ml-4 flex items-center space-x-2 text-[#849495] opacity-80">
-                <TerminalIcon size={14} className="text-[#00f0ff]" />
+                <TerminalIcon size={14} className="text-[#00f2ff]" />
                 <span className="text-xs">visitor@tharusha: ~</span>
               </div>
             </div>
@@ -377,7 +376,7 @@ const InteractiveTerminal = () => {
                   e.stopPropagation();
                   setIsMaximized(!isMaximized);
                 }}
-                className="hover:text-[#00f0ff] transition-colors"
+                className="hover:text-[#00f2ff] transition-colors"
                 title={isMaximized ? "Minimize" : "Maximize"}
               >
                 {isMaximized ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
@@ -415,7 +414,6 @@ const InteractiveTerminal = () => {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   className="flex-1 bg-transparent border-none outline-none text-[#dce4e5] placeholder-transparent focus:ring-0 focus:outline-none p-0"
-                  autoFocus
                   spellCheck="false"
                   autoComplete="off"
                   disabled={isSimulating}
@@ -432,7 +430,7 @@ const InteractiveTerminal = () => {
             <button
               key={suggestion}
               onClick={() => handleSuggestionClick(suggestion)}
-              className="px-3 py-1 text-xs rounded-full bg-[rgba(0,240,255,0.06)] border border-[rgba(0,240,255,0.2)] text-[#00f0ff] hover:bg-[rgba(0,240,255,0.15)] hover:border-[#00f0ff]/50 smooth-transition font-mono-dev"
+              className="px-3 py-1 text-xs rounded-full bg-[#00f2ff]/5 border border-[#00f2ff]/20 text-[#00f2ff] hover:bg-[#00f2ff]/10 hover:border-[#00f2ff]/50 smooth-transition font-mono-dev"
             >
               {suggestion}
             </button>
